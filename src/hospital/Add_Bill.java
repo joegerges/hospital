@@ -78,9 +78,6 @@ public class Add_Bill extends JFrame {
 				int _medicine_code = (int) medicine_code.getSelectedItem();
 				int _price = 0 ;
 				System.out.println(_patient_id + " " + _treatment_id + " " + _medicine_code+ " " + " " + _price);
-				setVisible(false);
-				dispose();
-				
 			}
 		});
 		btnNewButton.setBounds(122, 186, 89, 23);
@@ -98,6 +95,16 @@ public class Add_Bill extends JFrame {
 		patient_id.setBounds(193, 49, 96, 20);
 		contentPane.add(patient_id);
 		patient_id.setColumns(10);
+		
+		JButton btnNewButton_1 = new JButton("back");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				dispose();
+			}
+		});
+		btnNewButton_1.setBounds(10, 11, 89, 23);
+		contentPane.add(btnNewButton_1);
 		
 	
 		

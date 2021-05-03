@@ -73,7 +73,8 @@ public class GUI {
 		JButton btnMedicalRec = new JButton("View Medical Record");
 		btnMedicalRec.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//System.out.print("aynati loote");
+				View_MedicalRecord varViewMed = new View_MedicalRecord();	
+				varViewMed.setVisible(true);
 			}
 		});
 		panel.setLayout(new GridLayout(0, 1, 0, 0));
@@ -88,13 +89,31 @@ public class GUI {
 		panel.add(btnNewButton_4);
 		
 		JButton btnNewButton_3 = new JButton("View Treatments");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				View_Treatment varViewTreatment = new View_Treatment();	
+				varViewTreatment.setVisible(true);
+			}
+		});
 		panel.add(btnNewButton_3);
 		
 		JButton btnNewButton_2 = new JButton("View Medicines");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				View_Medicine varViewMedicine = new View_Medicine();	
+				varViewMedicine.setVisible(true);
+			}
+		});
 		panel.add(btnNewButton_2);
 		panel.add(btnMedicalRec);
 		
 		JButton btnViewPatient = new JButton("View Patient");
+		btnViewPatient.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				View_Patient varViewPatient = new View_Patient();	
+				varViewPatient.setVisible(true);
+			}
+		});
 		panel.add(btnViewPatient);
 		panel.add(btnViewRoom);
 		panel.add(btnViewBill);

@@ -104,8 +104,7 @@ public class Add_Patient extends JFrame {
 				int floor = Integer.parseInt(patient_floor.getText());
 				int room = Integer.parseInt(patient_room.getText());
 				System.out.println(fn + " " + ln + " " + ssn + " " + floor + " " + room );
-				setVisible(false);
-				dispose();
+				
 			}
 		});
 		btnNewButton.setBounds(200, 213, 89, 23);
@@ -114,5 +113,15 @@ public class Add_Patient extends JFrame {
 		JLabel lblNewLabel_5 = new JLabel("Add Patient");
 		lblNewLabel_5.setBounds(148, 11, 141, 30);
 		contentPane.add(lblNewLabel_5);
+		
+		JButton btnNewButton_1 = new JButton("back");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				dispose();
+			}
+		});
+		btnNewButton_1.setBounds(10, 11, 89, 23);
+		contentPane.add(btnNewButton_1);
 	}
 }

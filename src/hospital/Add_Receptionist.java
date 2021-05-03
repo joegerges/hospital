@@ -132,8 +132,7 @@ public class Add_Receptionist extends JFrame {
 				System.out.println( _gender + " " + _zip + " " + _street + " " +_type );
 				System.out.println(_street + " " + _country + " " + _internalnum );
 				System.out.println(_fax + " " + _dob + " " + _bloc);
-				setVisible(false);
-				dispose();
+				
 			}
 		});
 		btnNewButton.setBounds(203, 276, 89, 23);
@@ -218,6 +217,16 @@ public class Add_Receptionist extends JFrame {
 		internal_number.setBounds(347, 235, 96, 20);
 		contentPane.add(internal_number);
 		internal_number.setColumns(10);
+		
+		JButton btnNewButton_1 = new JButton("back");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				dispose();
+			}
+		});
+		btnNewButton_1.setBounds(7, 8, 89, 23);
+		contentPane.add(btnNewButton_1);
 		
 	
 		

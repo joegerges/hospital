@@ -140,8 +140,6 @@ public class Add_Doctor extends JFrame {
 				System.out.println(_has_clinic + " " + _gender + " " + _zip + " " + _street + " " +_type );
 				System.out.println(_street + " " + _country + " " + _specialization );
 				System.out.println(quali + " " + _fax + " " + _dob );
-				setVisible(false);
-				dispose();
 			}
 		});
 		btnNewButton.setBounds(186, 311, 89, 23);
@@ -230,6 +228,16 @@ public class Add_Doctor extends JFrame {
 		JLabel lblHasClinic = new JLabel("Has Clinic");
 		lblHasClinic.setBounds(10, 266, 49, 14);
 		contentPane.add(lblHasClinic);
+		
+		JButton btnNewButton_1 = new JButton("back");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				dispose();
+			}
+		});
+		btnNewButton_1.setBounds(7, 11, 89, 23);
+		contentPane.add(btnNewButton_1);
 		
 	
 		

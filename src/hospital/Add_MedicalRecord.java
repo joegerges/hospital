@@ -144,11 +144,19 @@ public class Add_MedicalRecord extends JFrame {
 				int phone = Integer.parseInt(Record_Phone.getText());
 				int maintainer_ssn = Integer.parseInt(maintener_ssn.getText());
 				System.out.println(ssn + " " + record_id + " " + phone + " " + maintainer_ssn+ " " + patient_address + " " + _DOB + " "+ blood + " "+ _has_insurance);
+			}
+		});
+		contentPane.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("back");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 				dispose();
 			}
 		});
-		contentPane.add(btnNewButton);
+		btnNewButton_1.setBounds(10, 11, 89, 23);
+		contentPane.add(btnNewButton_1);
 		
 	
 		

@@ -132,8 +132,6 @@ public class Add_Janitor extends JFrame {
 				System.out.println( _gender + " " + _zip + " " + _street + " " +_type );
 				System.out.println(_street + " " + _country + " " + _section );
 				System.out.println(_fax + " " + _dob + " " + _nationality);
-				setVisible(false);
-				dispose();
 			}
 		});
 		btnNewButton.setBounds(203, 276, 89, 23);
@@ -218,6 +216,16 @@ public class Add_Janitor extends JFrame {
 		section.setBounds(347, 235, 96, 20);
 		contentPane.add(section);
 		section.setColumns(10);
+		
+		JButton btnNewButton_1 = new JButton("back");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				dispose();
+			}
+		});
+		btnNewButton_1.setBounds(7, 11, 89, 23);
+		contentPane.add(btnNewButton_1);
 		
 	
 		

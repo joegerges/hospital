@@ -128,8 +128,7 @@ public class Add_Nurse extends JFrame {
 				System.out.println( _gender + " " + _zip + " " + _street + " " +_type );
 				System.out.println(_street + " " + _country );
 				System.out.println(_fax + " " + _dob );
-				setVisible(false);
-				dispose();
+			
 			}
 		});
 		btnNewButton.setBounds(199, 256, 89, 23);
@@ -196,6 +195,16 @@ public class Add_Nurse extends JFrame {
 		working_hours.setColumns(10);
 		working_hours.setBounds(347, 173, 96, 20);
 		contentPane.add(working_hours);
+		
+		JButton btnNewButton_1 = new JButton("back");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				dispose();
+			}
+		});
+		btnNewButton_1.setBounds(10, 11, 89, 23);
+		contentPane.add(btnNewButton_1);
 		
 	
 		

@@ -77,15 +77,13 @@ public class Add_Rooms extends JFrame {
 				int _number = Integer.parseInt(number.getText());
 				int _floor_number = Integer.parseInt(floor_number.getText());
 				System.out.println(_type + " " + _number_beds + " " + _number + " " + _floor_number);
-				setVisible(false);
-				dispose();
 			}
 		});
 		btnNewButton.setBounds(126, 229, 89, 23);
 		contentPane.add(btnNewButton);
 		
 		JLabel lblNewLabel = new JLabel("Add Rooms ");
-		lblNewLabel.setBounds(111, 11, 103, 14);
+		lblNewLabel.setBounds(148, 11, 103, 14);
 		contentPane.add(lblNewLabel);
 		
 		JLabel rooms_number = new JLabel("Number");
@@ -103,6 +101,16 @@ public class Add_Rooms extends JFrame {
 		JLabel lblNewLabel_4 = new JLabel("Type");
 		lblNewLabel_4.setBounds(47, 159, 49, 14);
 		contentPane.add(lblNewLabel_4);
+		
+		JButton btnNewButton_1 = new JButton("back");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				dispose();
+			}
+		});
+		btnNewButton_1.setBounds(10, 7, 89, 23);
+		contentPane.add(btnNewButton_1);
 		
 	}
 }

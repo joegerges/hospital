@@ -93,9 +93,6 @@ public class Add_Medicine extends JFrame {
 				int qte = Integer.parseInt(quantity.getText());
 				int _price = Integer.parseInt(price.getText());
 				System.out.println(qte + " " + exp + " " + _code + " " + " " + _price);
-				setVisible(false);
-				dispose();
-				
 			}
 		});
 		btnNewButton.setBounds(122, 186, 89, 23);
@@ -104,5 +101,15 @@ public class Add_Medicine extends JFrame {
 		JLabel lblNewLabel_5 = new JLabel("Add Medicine");
 		lblNewLabel_5.setBounds(133, 11, 141, 30);
 		contentPane.add(lblNewLabel_5);
+		
+		JButton btnNewButton_1 = new JButton("back");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				dispose();
+			}
+		});
+		btnNewButton_1.setBounds(10, 11, 89, 23);
+		contentPane.add(btnNewButton_1);
 	}
 }
