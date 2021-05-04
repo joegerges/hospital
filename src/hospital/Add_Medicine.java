@@ -6,6 +6,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import hospital.DataContracts.Medicine;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -88,11 +91,28 @@ public class Add_Medicine extends JFrame {
 		JButton btnNewButton = new JButton("submit");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
 				String exp = expiry_date.getText();
 				int _code = Integer.parseInt(code.getText());
 				int qte = Integer.parseInt(quantity.getText());
 				int _price = Integer.parseInt(price.getText());
-				System.out.println(qte + " " + exp + " " + _code + " " + " " + _price);
+				
+				Medicine med = new Medicine();
+				med.code_number = _code;
+				med.expiry_date = exp;
+				med.price = _price;
+				med.quantity = qte;
+				
+				DatabaseHelper dbHelper = new DatabaseHelper();
+				dbHelper.AddMedicine(med);
+				
+				JOptionPane.showMessageDialog(frame, "Successfully added this medecine", "Success", JOptionPane.INFORMATION_MESSAGE);
+				}
+				catch(Exception e1)
+				{
+					JOptionPane.showMessageDialog(frame, "Oops, something went wrong", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				
 			}
 		});
 		btnNewButton.setBounds(122, 186, 89, 23);

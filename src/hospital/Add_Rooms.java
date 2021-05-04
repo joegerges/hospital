@@ -1,14 +1,20 @@
 package hospital;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import hospital.DataContracts.Room;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
@@ -19,6 +25,7 @@ public class Add_Rooms extends JFrame {
 	private JTextField number;
 	private JTextField floor_number;
 	private JTextField number_beds;
+	private JFrame frame;
 
 	/**
 	 * Launch the application.
@@ -65,18 +72,35 @@ public class Add_Rooms extends JFrame {
 		JComboBox type = new JComboBox();
 		type.setBounds(178, 155, 96, 22);
 		contentPane.add(type);
-		type.addItem("type1");
-		type.addItem("type2");
+		type.addItem("ER");
+		type.addItem("ICU");
+		type.addItem("Normal");
 		type.setSelectedItem(null);
-		
 		JButton btnNewButton = new JButton("submit");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
 				String _type = (String) type.getSelectedItem();
 				int _number_beds = Integer.parseInt(number_beds.getText());
 				int _number = Integer.parseInt(number.getText());
 				int _floor_number = Integer.parseInt(floor_number.getText());
-				System.out.println(_type + " " + _number_beds + " " + _number + " " + _floor_number);
+				
+				Room room = new Room();
+				room.number = _number;
+				room.floor_number = _floor_number;
+				room.number_beds = _number_beds;
+				room.type = _type;
+				
+				DatabaseHelper dbHelper = new DatabaseHelper();
+				dbHelper.AddRoom(room);
+				
+				JOptionPane.showMessageDialog(frame, "Successfully added this room", "Success", JOptionPane.INFORMATION_MESSAGE);
+				}
+				catch(Exception e1)
+				{
+					JOptionPane.showMessageDialog(frame, "Oops, something went wrong", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+		
 			}
 		});
 		btnNewButton.setBounds(126, 229, 89, 23);

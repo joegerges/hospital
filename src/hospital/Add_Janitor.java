@@ -6,6 +6,11 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import hospital.DataContracts.Employee;
+import hospital.DataContracts.Janitor;
+import hospital.DataContracts.Nurse;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -24,13 +29,11 @@ public class Add_Janitor extends JFrame {
 	private JTextField salary;
 	private JTextField phone_number;
 	private JTextField dob;
-	private JTextField fax;
 	private JTextField country;
 	private JTextField zip;
 	private JTextField street;
 	private JTextField working_hours;
 	private JTextField nationality;
-	private JTextField section;
 
 	/**
 	 * Launch the application.
@@ -53,7 +56,7 @@ public class Add_Janitor extends JFrame {
 	 */
 	public Add_Janitor() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 500, 550);
+		setBounds(100, 100, 500, 351);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -114,24 +117,51 @@ public class Add_Janitor extends JFrame {
 		JButton btnNewButton = new JButton("submit");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				DatabaseHelper dbHelper = new DatabaseHelper();
+				Employee emp = new Employee();
+				Janitor jan = new Janitor();
+				
+				try {
 				String fn = emp_fn.getText();
 				String _dob = dob.getText();
-				String _fax = fax.getText();
 				String _country = country.getText();
 				String _street = street.getText();
 				String _nationality = nationality.getText();
 				int _zip = Integer.parseInt(zip.getText());
-				int _section = Integer.parseInt(section.getText());
 				String ln = emp_ln.getText();
-				String _type = working_hours.getText();
+				int _working_hours = Integer.parseInt(working_hours.getText());
 				String _gender = (String) gender.getSelectedItem();
 				int ssn = Integer.parseInt(emp_ssn.getText());
 				int phone_numberr = Integer.parseInt(phone_number.getText());
 				int salaryy = Integer.parseInt(salary.getText());
-				System.out.println(fn + " " + ln + " " + ssn + " " + salaryy + " " +phone_numberr );
-				System.out.println( _gender + " " + _zip + " " + _street + " " +_type );
-				System.out.println(_street + " " + _country + " " + _section );
-				System.out.println(_fax + " " + _dob + " " + _nationality);
+				
+				emp.ssn = ssn;
+				emp.fname = fn;
+				emp.lname = ln;
+				emp.salary = salaryy;
+				emp.phone = phone_numberr;
+				emp.dob = _dob;
+				emp.gender = _gender;
+				emp.country = _country;
+				emp.zip = _zip;
+				emp.street = _street;
+				
+				jan.ssn = ssn;
+				jan.working_hours = _working_hours;
+				jan.nationality = _nationality;
+				
+				dbHelper.AddEmployee(emp);
+				dbHelper.AddJanitor(jan);
+				
+				JOptionPane.showMessageDialog(frame, "Successfully added this employee", "Success", JOptionPane.INFORMATION_MESSAGE);
+				}
+				catch(Exception e1)
+				{
+					JOptionPane.showMessageDialog(frame, "Oops, something went wrong", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				
+				
 			}
 		});
 		btnNewButton.setBounds(203, 276, 89, 23);
@@ -144,10 +174,6 @@ public class Add_Janitor extends JFrame {
 		JLabel lblNewLabel_6 = new JLabel("DOB");
 		lblNewLabel_6.setBounds(10, 213, 49, 14);
 		contentPane.add(lblNewLabel_6);
-		
-		JLabel lblNewLabel_7 = new JLabel("Fax");
-		lblNewLabel_7.setBounds(258, 207, 49, 14);
-		contentPane.add(lblNewLabel_7);
 		
 		JLabel lblNewLabel_8 = new JLabel("Gender");
 		lblNewLabel_8.setBounds(258, 145, 49, 14);
@@ -166,14 +192,9 @@ public class Add_Janitor extends JFrame {
 		contentPane.add(lblNewLabel_13);
 		
 		dob = new JTextField();
-		dob.setBounds(104, 204, 96, 20);
+		dob.setBounds(104, 210, 96, 20);
 		contentPane.add(dob);
 		dob.setColumns(10);
-		
-		fax = new JTextField();
-		fax.setBounds(347, 201, 96, 20);
-		contentPane.add(fax);
-		fax.setColumns(10);
 		
 		country = new JTextField();
 		country.setBounds(347, 49, 96, 20);
@@ -200,22 +221,13 @@ public class Add_Janitor extends JFrame {
 		contentPane.add(working_hours);
 		
 		JLabel lblNewLabel_9 = new JLabel("Nationality");
-		lblNewLabel_9.setBounds(10, 238, 86, 14);
+		lblNewLabel_9.setBounds(258, 213, 86, 14);
 		contentPane.add(lblNewLabel_9);
 		
-		JLabel lblNewLabel_10 = new JLabel("Section");
-		lblNewLabel_10.setBounds(258, 238, 49, 14);
-		contentPane.add(lblNewLabel_10);
-		
 		nationality = new JTextField();
-		nationality.setBounds(104, 235, 96, 20);
+		nationality.setBounds(347, 210, 96, 20);
 		contentPane.add(nationality);
 		nationality.setColumns(10);
-		
-		section = new JTextField();
-		section.setBounds(347, 235, 96, 20);
-		contentPane.add(section);
-		section.setColumns(10);
 		
 		JButton btnNewButton_1 = new JButton("back");
 		btnNewButton_1.addActionListener(new ActionListener() {

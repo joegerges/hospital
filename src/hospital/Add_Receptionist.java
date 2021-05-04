@@ -6,6 +6,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import hospital.DataContracts.Employee;
+import hospital.DataContracts.Receptionist;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -13,6 +17,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
+import javax.swing.JPasswordField;
 
 public class Add_Receptionist extends JFrame {
 
@@ -24,13 +29,12 @@ public class Add_Receptionist extends JFrame {
 	private JTextField salary;
 	private JTextField phone_number;
 	private JTextField dob;
-	private JTextField fax;
 	private JTextField country;
 	private JTextField zip;
 	private JTextField street;
 	private JTextField working_hours;
-	private JTextField bloc;
 	private JTextField internal_number;
+	private JPasswordField passwordField;
 
 	/**
 	 * Launch the application.
@@ -52,8 +56,10 @@ public class Add_Receptionist extends JFrame {
 	 * Create the frame.
 	 */
 	public Add_Receptionist() {
+		DatabaseHelper dbHelper = new DatabaseHelper();
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 500, 550);
+		setBounds(100, 100, 500, 357);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -111,31 +117,64 @@ public class Add_Receptionist extends JFrame {
 		contentPane.add(gender);
 		gender.setSelectedItem(null);
 		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(204, 247, 89, 20);
+		contentPane.add(passwordField);
+		
+		JLabel lblNewLabel_14 = new JLabel("Password");
+		lblNewLabel_14.setBounds(136, 250, 64, 14);
+		contentPane.add(lblNewLabel_14);
+		
 		JButton btnNewButton = new JButton("submit");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Employee emp = new Employee();
+				Receptionist rec = new Receptionist();
+				
+				try {
 				String fn = emp_fn.getText();
 				String _dob = dob.getText();
-				String _fax = fax.getText();
 				String _country = country.getText();
 				String _street = street.getText();
-				String _bloc = bloc.getText();
 				int _zip = Integer.parseInt(zip.getText());
 				int _internalnum = Integer.parseInt(internal_number.getText());
 				String ln = emp_ln.getText();
-				String _type = working_hours.getText();
+				int _working_hours = Integer.parseInt(working_hours.getText());
 				String _gender = (String) gender.getSelectedItem();
 				int ssn = Integer.parseInt(emp_ssn.getText());
 				int phone_numberr = Integer.parseInt(phone_number.getText());
 				int salaryy = Integer.parseInt(salary.getText());
-				System.out.println(fn + " " + ln + " " + ssn + " " + salaryy + " " +phone_numberr );
-				System.out.println( _gender + " " + _zip + " " + _street + " " +_type );
-				System.out.println(_street + " " + _country + " " + _internalnum );
-				System.out.println(_fax + " " + _dob + " " + _bloc);
+				String password = passwordField.getText();
+				
+				emp.ssn = ssn;
+				emp.fname = fn;
+				emp.lname = ln;
+				emp.salary = salaryy;
+				emp.phone = phone_numberr;
+				emp.dob = _dob;
+				emp.gender = _gender;
+				emp.country = _country;
+				emp.zip = _zip;
+				emp.street = _street;
+				
+				rec.ssn = ssn;
+				rec.working_hours = _working_hours;
+				rec.internal_number = _internalnum;
+				rec.pass = password;
+				
+				dbHelper.AddEmployee(emp);
+				dbHelper.AddReceptionist(rec);
+				
+				JOptionPane.showMessageDialog(frame, "Successfully added this employee", "Success", JOptionPane.INFORMATION_MESSAGE);
+				}
+				catch(Exception e1)
+				{
+					JOptionPane.showMessageDialog(frame, "Oops, something went wrong", "Error", JOptionPane.ERROR_MESSAGE);
+				}
 				
 			}
 		});
-		btnNewButton.setBounds(203, 276, 89, 23);
+		btnNewButton.setBounds(204, 278, 89, 23);
 		contentPane.add(btnNewButton);
 		
 		JLabel lblNewLabel_5 = new JLabel("Add Receptionist");
@@ -145,10 +184,6 @@ public class Add_Receptionist extends JFrame {
 		JLabel lblNewLabel_6 = new JLabel("DOB");
 		lblNewLabel_6.setBounds(10, 207, 49, 14);
 		contentPane.add(lblNewLabel_6);
-		
-		JLabel lblNewLabel_7 = new JLabel("Fax");
-		lblNewLabel_7.setBounds(258, 207, 49, 14);
-		contentPane.add(lblNewLabel_7);
 		
 		JLabel lblNewLabel_8 = new JLabel("Gender");
 		lblNewLabel_8.setBounds(258, 145, 49, 14);
@@ -170,11 +205,6 @@ public class Add_Receptionist extends JFrame {
 		dob.setBounds(104, 204, 96, 20);
 		contentPane.add(dob);
 		dob.setColumns(10);
-		
-		fax = new JTextField();
-		fax.setBounds(347, 201, 96, 20);
-		contentPane.add(fax);
-		fax.setColumns(10);
 		
 		country = new JTextField();
 		country.setBounds(347, 49, 96, 20);
@@ -200,23 +230,16 @@ public class Add_Receptionist extends JFrame {
 		working_hours.setBounds(347, 173, 96, 20);
 		contentPane.add(working_hours);
 		
-		JLabel lblNewLabel_9 = new JLabel("Bloc");
-		lblNewLabel_9.setBounds(10, 238, 86, 14);
-		contentPane.add(lblNewLabel_9);
-		
 		JLabel lblNewLabel_10 = new JLabel("Internal Num.");
-		lblNewLabel_10.setBounds(258, 238, 116, 14);
+		lblNewLabel_10.setBounds(258, 207, 78, 14);
 		contentPane.add(lblNewLabel_10);
 		
-		bloc = new JTextField();
-		bloc.setBounds(104, 235, 96, 20);
-		contentPane.add(bloc);
-		bloc.setColumns(10);
-		
 		internal_number = new JTextField();
-		internal_number.setBounds(347, 235, 96, 20);
+		internal_number.setBounds(347, 204, 96, 20);
 		contentPane.add(internal_number);
 		internal_number.setColumns(10);
+		
+
 		
 		JButton btnNewButton_1 = new JButton("back");
 		btnNewButton_1.addActionListener(new ActionListener() {
@@ -227,6 +250,8 @@ public class Add_Receptionist extends JFrame {
 		});
 		btnNewButton_1.setBounds(7, 8, 89, 23);
 		contentPane.add(btnNewButton_1);
+		
+		
 		
 	
 		

@@ -6,6 +6,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import hospital.DataContracts.Employee;
+import hospital.DataContracts.Nurse;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -51,7 +55,7 @@ public class Add_Nurse extends JFrame {
 	 */
 	public Add_Nurse() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 500, 550);
+		setBounds(100, 100, 500, 327);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -112,6 +116,12 @@ public class Add_Nurse extends JFrame {
 		JButton btnNewButton = new JButton("submit");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
+				DatabaseHelper dbHelper = new DatabaseHelper();
+				
+				Employee emp = new Employee();
+				Nurse nur = new Nurse();
+				
 				String fn = emp_fn.getText();
 				String _dob = dob.getText();
 				String _fax = fax.getText();
@@ -119,15 +129,36 @@ public class Add_Nurse extends JFrame {
 				String _street = street.getText();
 				int _zip = Integer.parseInt(zip.getText());
 				String ln = emp_ln.getText();
-				String _type = working_hours.getText();
+				int _working_hours = Integer.parseInt(working_hours.getText());
 				String _gender = (String) gender.getSelectedItem();
 				int ssn = Integer.parseInt(emp_ssn.getText());
 				int phone_numberr = Integer.parseInt(phone_number.getText());
 				int salaryy = Integer.parseInt(salary.getText());
-				System.out.println(fn + " " + ln + " " + ssn + " " + salaryy + " " +phone_numberr );
-				System.out.println( _gender + " " + _zip + " " + _street + " " +_type );
-				System.out.println(_street + " " + _country );
-				System.out.println(_fax + " " + _dob );
+
+				
+				emp.ssn = ssn;
+				emp.fname = fn;
+				emp.lname = ln;
+				emp.salary = salaryy;
+				emp.phone = phone_numberr;
+				emp.dob = _dob;
+				emp.gender = _gender;
+				emp.country = _country;
+				emp.zip = _zip;
+				emp.street = _street;
+				
+				nur.ssn = ssn;
+				nur.working_hours = _working_hours;
+				
+				dbHelper.AddEmployee(emp);
+				dbHelper.AddNurse(nur);
+				
+				JOptionPane.showMessageDialog(frame, "Successfully added this employee", "Success", JOptionPane.INFORMATION_MESSAGE);
+				}
+				catch(Exception e1)
+				{
+					JOptionPane.showMessageDialog(frame, "Oops, something went wrong", "Error", JOptionPane.ERROR_MESSAGE);
+				}
 			
 			}
 		});

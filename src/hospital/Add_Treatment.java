@@ -6,6 +6,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import hospital.DataContracts.Medicine;
+import hospital.DataContracts.Treatment;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -95,12 +99,28 @@ public class Add_Treatment extends JFrame {
 		JButton btnNewButton = new JButton("submit");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
 				String _type = type.getText();
 				int _id= Integer.parseInt(id.getText());
 				
 				String _insurance = (String) insurance_covered.getSelectedItem();
 				int _price = Integer.parseInt(price.getText());
-				System.out.println(_type + " " + _insurance + " " + _price + " " + " " + _id);
+				
+				Treatment tre = new Treatment();
+				tre.id = _id;
+				tre.insurance_covered = (_insurance == "yes"? true: false);
+				tre.price = _price;
+				tre.type = _type;
+				
+				DatabaseHelper dbHelper = new DatabaseHelper();
+				dbHelper.AddTreatment(tre);
+				
+				JOptionPane.showMessageDialog(frame, "Successfully added this treatment", "Success", JOptionPane.INFORMATION_MESSAGE);
+				}
+				catch(Exception e1)
+				{
+					JOptionPane.showMessageDialog(frame, "Oops, something went wrong", "Error", JOptionPane.ERROR_MESSAGE);
+				}
 				
 			}
 		});

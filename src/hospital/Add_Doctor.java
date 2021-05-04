@@ -6,6 +6,11 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import hospital.DataContracts.Doctor;
+import hospital.DataContracts.Employee;
+import hospital.DataContracts.Nurse;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -24,7 +29,6 @@ public class Add_Doctor extends JFrame {
 	private JTextField salary;
 	private JTextField phone_number;
 	private JTextField dob;
-	private JTextField fax;
 	private JTextField qualifications;
 	private JTextField specialization;
 	private JTextField country;
@@ -53,7 +57,7 @@ public class Add_Doctor extends JFrame {
 	 */
 	public Add_Doctor() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 500, 550);
+		setBounds(100, 100, 500, 387);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -107,7 +111,7 @@ public class Add_Doctor extends JFrame {
 		JComboBox has_clinic = new JComboBox();
 		has_clinic.addItem("yes");
 		has_clinic.addItem("no");
-		has_clinic.setBounds(104, 262, 96, 22);
+		has_clinic.setBounds(104, 235, 96, 22);
 		contentPane.add(has_clinic);
 		has_clinic.setSelectedItem(null);
 		
@@ -121,9 +125,14 @@ public class Add_Doctor extends JFrame {
 		JButton btnNewButton = new JButton("submit");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
+				DatabaseHelper dbHelper = new DatabaseHelper();
+				
+				Employee emp = new Employee();
+				Doctor doc = new Doctor();
+					
 				String fn = emp_fn.getText();
 				String _dob = dob.getText();
-				String _fax = fax.getText();
 				String quali = qualifications.getText();
 				String _specialization = specialization.getText();
 				String _country = country.getText();
@@ -136,11 +145,37 @@ public class Add_Doctor extends JFrame {
 				int phone_numberr = Integer.parseInt(phone_number.getText());
 				int salaryy = Integer.parseInt(salary.getText());
 				String _has_clinic = (String) has_clinic.getSelectedItem();
-				System.out.println(fn + " " + ln + " " + ssn + " " + salaryy + " " +phone_numberr );
-				System.out.println(_has_clinic + " " + _gender + " " + _zip + " " + _street + " " +_type );
-				System.out.println(_street + " " + _country + " " + _specialization );
-				System.out.println(quali + " " + _fax + " " + _dob );
+				
+				emp.ssn = ssn;
+				emp.fname = fn;
+				emp.lname = ln;
+				emp.salary = salaryy;
+				emp.phone = phone_numberr;
+				emp.dob = _dob;
+				emp.gender = _gender;
+				emp.country = _country;
+				emp.zip = _zip;
+				emp.street = _street;
+				
+				doc.has_clinic = (_has_clinic == "yes"? true: false);
+				doc.qualification = quali;
+				doc.specialization = _specialization;
+				doc.ssn = ssn;
+				doc.type = _type;
+				
+				dbHelper.AddEmployee(emp);
+				dbHelper.AddDoctor(doc);
+				dbHelper.AddQualifications(ssn, quali);
+				dbHelper.AddSpecializations(ssn, _specialization);
+				
+				JOptionPane.showMessageDialog(frame, "Successfully added this employee", "Success", JOptionPane.INFORMATION_MESSAGE);
+				}
+				catch(Exception e1)
+				{
+					JOptionPane.showMessageDialog(frame, "Oops, something went wrong", "Error", JOptionPane.ERROR_MESSAGE);
+				}
 			}
+				
 		});
 		btnNewButton.setBounds(186, 311, 89, 23);
 		contentPane.add(btnNewButton);
@@ -152,10 +187,6 @@ public class Add_Doctor extends JFrame {
 		JLabel lblNewLabel_6 = new JLabel("DOB");
 		lblNewLabel_6.setBounds(10, 207, 49, 14);
 		contentPane.add(lblNewLabel_6);
-		
-		JLabel lblNewLabel_7 = new JLabel("Fax");
-		lblNewLabel_7.setBounds(10, 238, 49, 14);
-		contentPane.add(lblNewLabel_7);
 		
 		JLabel lblNewLabel_8 = new JLabel("Gender");
 		lblNewLabel_8.setBounds(268, 207, 49, 14);
@@ -185,11 +216,6 @@ public class Add_Doctor extends JFrame {
 		dob.setBounds(104, 204, 96, 20);
 		contentPane.add(dob);
 		dob.setColumns(10);
-		
-		fax = new JTextField();
-		fax.setBounds(104, 235, 96, 20);
-		contentPane.add(fax);
-		fax.setColumns(10);
 		
 		qualifications = new JTextField();
 		qualifications.setBounds(362, 49, 96, 20);
@@ -226,7 +252,7 @@ public class Add_Doctor extends JFrame {
 		contentPane.add(type);
 		
 		JLabel lblHasClinic = new JLabel("Has Clinic");
-		lblHasClinic.setBounds(10, 266, 49, 14);
+		lblHasClinic.setBounds(10, 241, 84, 14);
 		contentPane.add(lblHasClinic);
 		
 		JButton btnNewButton_1 = new JButton("back");

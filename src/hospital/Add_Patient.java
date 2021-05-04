@@ -6,6 +6,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import hospital.DataContracts.Patient;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -98,13 +101,28 @@ public class Add_Patient extends JFrame {
 		JButton btnNewButton = new JButton("submit");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
 				String fn = patient_fn.getText();
 				String ln = patient_ln.getText();
 				int ssn = Integer.parseInt(patient_ssn.getText());
 				int floor = Integer.parseInt(patient_floor.getText());
 				int room = Integer.parseInt(patient_room.getText());
-				System.out.println(fn + " " + ln + " " + ssn + " " + floor + " " + room );
 				
+				Patient pat = new Patient();
+				pat.ssn = ssn;
+				pat.fname = fn;
+				pat.lname = ln;
+				pat.floor_number = floor;
+				pat.room_number = room;
+				
+				DatabaseHelper dbHelper = new DatabaseHelper();
+				dbHelper.AddPatient(pat);
+				JOptionPane.showMessageDialog(frame, "Successfully added this patient", "Success", JOptionPane.INFORMATION_MESSAGE);
+				}
+				catch(Exception e1)
+				{
+					JOptionPane.showMessageDialog(frame, "Oops, something went wrong", "Error", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		btnNewButton.setBounds(200, 213, 89, 23);

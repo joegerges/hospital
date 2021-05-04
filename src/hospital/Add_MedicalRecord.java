@@ -6,6 +6,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import hospital.DataContracts.MedicalRecord;
+import hospital.DataContracts.Patient;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -94,7 +98,7 @@ public class Add_MedicalRecord extends JFrame {
 		lblNewLabel_4.setBounds(52, 176, 119, 14);
 		contentPane.add(lblNewLabel_4);
 		JLabel lblNewLabel_5 = new JLabel("Add Medical Record");
-		lblNewLabel_5.setBounds(148, 11, 141, 30);
+		lblNewLabel_5.setBounds(188, 7, 141, 30);
 		contentPane.add(lblNewLabel_5);
 		
 		JLabel lblDob = new JLabel("DOB");
@@ -135,6 +139,7 @@ public class Add_MedicalRecord extends JFrame {
 		btnNewButton.setBounds(200, 330, 89, 23);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
 				String patient_address = Record_Address.getText();
 				String _DOB = DOB.getText();
 				String blood = Blood_Type.getText();
@@ -143,7 +148,25 @@ public class Add_MedicalRecord extends JFrame {
 				int record_id = Integer.parseInt(RecordID.getText());
 				int phone = Integer.parseInt(Record_Phone.getText());
 				int maintainer_ssn = Integer.parseInt(maintener_ssn.getText());
-				System.out.println(ssn + " " + record_id + " " + phone + " " + maintainer_ssn+ " " + patient_address + " " + _DOB + " "+ blood + " "+ _has_insurance);
+				
+				MedicalRecord med = new MedicalRecord();
+				med.ssn = ssn;
+				med.address = patient_address;
+				med.blood_type = blood;
+				med.dob = _DOB;
+				med.has_insurance = (_has_insurance == "yes"? true: false);
+				med.maintainer_ssn = maintainer_ssn;
+				med.phone = phone;
+				
+				DatabaseHelper dbHelper = new DatabaseHelper();
+				dbHelper.AddMedicalRecord(med);
+				JOptionPane.showMessageDialog(frame, "Successfully added this patient", "Success", JOptionPane.INFORMATION_MESSAGE);
+				}
+				catch(Exception e1)
+				{
+					JOptionPane.showMessageDialog(frame, "Oops, something went wrong", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				
 			}
 		});
 		contentPane.add(btnNewButton);
