@@ -13,7 +13,7 @@ import java.awt.event.ActionEvent;
 
 public class GUI {
 
-	JFrame frame;
+	public JFrame frame;
 
 	/**
 	 * Launch the application.

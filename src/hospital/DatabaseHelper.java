@@ -33,12 +33,12 @@ public class DatabaseHelper {
 		}
 	}
 	
-	public boolean Login(int ssn, String password)
+	public boolean Login(int internal_number, String password)
 	{
 		ResultSet rs = null;
 		try {
 			Statement stmt = _con.createStatement();
-			String query = "SELECT * FROM receptionist WHERE ssn=" + ssn + " AND pass='"+ password + "'";
+			String query = "SELECT * FROM receptionist WHERE internal_number=" + internal_number + " AND pass='"+ password + "'";
 			rs = stmt.executeQuery(query);
 			
 			if(!rs.next())
