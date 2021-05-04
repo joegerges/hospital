@@ -4,12 +4,19 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
+
+import net.proteanit.sql.DbUtils;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
@@ -17,6 +24,8 @@ public class View_Medicine extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField search_code;
+	private JTable table;
+	private JFrame frame;
 
 	/**
 	 * Launch the application.
@@ -39,7 +48,7 @@ public class View_Medicine extends JFrame {
 	 */
 	public View_Medicine() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 620, 360);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -59,19 +68,40 @@ public class View_Medicine extends JFrame {
 		btnNewButton.setBounds(10, 11, 89, 23);
 		contentPane.add(btnNewButton);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		
+		table = new JTable();
+		table.setBounds(10, 99, 414, 197);
+		scrollPane.setViewportView(table);
+		scrollPane.setBounds(10, 93, 584, 227);
+		getContentPane().add(scrollPane);
+		
+		
 		JButton btnNewButton_1 = new JButton("submit");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int _search_code = Integer.parseInt(search_code.getText());
-				System.out.println(_search_code);
+				try {
+				int _search_code = -1;
+				if(!search_code.getText().isEmpty()) _search_code = Integer.parseInt(search_code.getText());
+				
+				DatabaseHelper dbHelper = new DatabaseHelper();
+				ResultSet empsRs = dbHelper.GetMedicine(_search_code);
+				
+				table.setModel(DbUtils.resultSetToTableModel(empsRs));
+				
+				}
+				catch(Exception e1)
+				{
+					JOptionPane.showMessageDialog(frame, "Oops, something went wrong", "Error", JOptionPane.ERROR_MESSAGE);
+				}
 				
 			}
 		});
-		btnNewButton_1.setBounds(265, 59, 89, 23);
+		btnNewButton_1.setBounds(505, 59, 89, 23);
 		contentPane.add(btnNewButton_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("View Medicine");
-		lblNewLabel_2.setBounds(177, 15, 130, 14);
+		lblNewLabel_2.setBounds(267, 15, 130, 14);
 		contentPane.add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_4 = new JLabel("Search by Code");

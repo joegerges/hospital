@@ -5,11 +5,19 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
+
+import net.proteanit.sql.DbUtils;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
@@ -17,7 +25,9 @@ public class View_Rooms extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField room_nb;
-
+	private JTable table;
+	private JFrame frame;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -39,7 +49,7 @@ public class View_Rooms extends JFrame {
 	 */
 	public View_Rooms() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 712, 467);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -58,26 +68,49 @@ public class View_Rooms extends JFrame {
 		contentPane.add(btnNewButton);
 		
 		JLabel lblNewLabel = new JLabel("View Rooms");
-		lblNewLabel.setBounds(185, 15, 108, 14);
+		lblNewLabel.setBounds(336, 15, 108, 14);
 		contentPane.add(lblNewLabel);
 		
-		JLabel lblNewLabel_1 = new JLabel("floor number");
+		JLabel lblNewLabel_1 = new JLabel("Floor number");
 		lblNewLabel_1.setBounds(50, 66, 76, 14);
 		contentPane.add(lblNewLabel_1);
 		
-		JComboBox floor_number = new JComboBox();
+		DatabaseHelper dbHelper = new DatabaseHelper();
+		ArrayList<Integer> floor_numbers = dbHelper.GetFloorNumbers();
+		JComboBox<Integer> floor_number = new JComboBox<Integer>();
+		for(Integer floor: floor_numbers)
+		{
+			floor_number.addItem(floor);
+		}
 		floor_number.setBounds(165, 62, 97, 22);
 		contentPane.add(floor_number);
+		floor_number.setSelectedItem(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		
+		table = new JTable();
+		table.setBounds(10, 99, 414, 197);
+		scrollPane.setViewportView(table);
+		scrollPane.setBounds(10, 133, 679, 284);
+		getContentPane().add(scrollPane);
 		
 		JButton btnNewButton_1 = new JButton("submit");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int _floor_nb = Integer.parseInt((String) floor_number.getSelectedItem());
-				String _room_nb = room_nb.getText();
-				System.out.println(_room_nb + " " + _floor_nb);
+				try {
+				Integer _room_nb = null, _floor_nb = null;
+				_floor_nb = (Integer) floor_number.getSelectedItem();
+				if(!room_nb.getText().isEmpty()) _room_nb = Integer.parseInt(room_nb.getText());
+				ResultSet roomsRs = dbHelper.GetRooms(_floor_nb, _room_nb);
+				table.setModel(DbUtils.resultSetToTableModel(roomsRs));
+				}
+				catch(Exception e1)
+				{
+					JOptionPane.showMessageDialog(frame, "Oops, something went wrong", "Error", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
-		btnNewButton_1.setBounds(292, 99, 89, 23);
+		btnNewButton_1.setBounds(600, 99, 89, 23);
 		contentPane.add(btnNewButton_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Room Number");

@@ -355,18 +355,120 @@ public class DatabaseHelper {
 	
 	
 
-	public ResultSet FetchEmployees(String type)
+	public ResultSet GetEmployees(String type, int ssn, String salary_operator, int salary)
 	{
 		ResultSet rs = null;
 		try {
 			Statement stmt = _con.createStatement();
-			String query = "SELECT * FROM " + type;
+			String query = "SELECT * FROM employee e, " + type + " t WHERE e.ssn=t.ssn";
+			if(salary_operator != "None" && salary != -1)
+			{
+				query += " AND salary" + salary_operator + salary;
+			}
+			if(ssn != -1)
+			{
+				query += " AND e.ssn LIKE '%"+ssn+"%'";
+			}
 			rs = stmt.executeQuery(query);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return rs;
 	}
+	
+	public ResultSet GetBills(int ssn_filter)
+	{
+		ResultSet rs = null;
+		try {
+			Statement stmt = _con.createStatement();
+			String query = "SELECT patient_ssn, med_code, treatment_id, total_price FROM bill";
+			if(ssn_filter != -1)
+			{
+				query += " WHERE patient_ssn="+ssn_filter;
+			}
+			rs = stmt.executeQuery(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return rs;
+	}
+	
+	public ResultSet GetMedicine(int code)
+	{
+		ResultSet rs = null;
+		try {
+			Statement stmt = _con.createStatement();
+			String query = "SELECT * FROM medecine";
+			if(code != -1)
+			{
+				query += " WHERE code_number LIKE '%"+code+"'";
+			}
+			rs = stmt.executeQuery(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return rs;
+	}
+	
+	public ResultSet GetTreatment(int id)
+	{
+		ResultSet rs = null;
+		try {
+			Statement stmt = _con.createStatement();
+			String query = "SELECT * FROM treatment";
+			if(id != -1)
+			{
+				query += " WHERE id LIKE '%"+id+"'";
+			}
+			rs = stmt.executeQuery(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return rs;
+	}
+	
+	public ArrayList<Integer> GetFloorNumbers()
+	{
+		ResultSet rs = null;
+		ArrayList<Integer> result = new ArrayList<Integer>();
+		
+		try {
+			Statement stmt = _con.createStatement();
+			String query = "SELECT DISTINCT floor_number FROM room";
+			rs = stmt.executeQuery(query);
+			
+			while(rs.next())
+			{
+				result.add(rs.getInt("floor_number"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public ResultSet GetRooms(Integer floor_number, Integer room_number)
+	{
+		ResultSet rs = null;
+		try {
+			Statement stmt = _con.createStatement();
+			String query = "SELECT * FROM room";
+			if(floor_number != null)
+			{
+				query += " WHERE floor_number=" + floor_number;
+			}
+			if(room_number != null)
+			{
+				query += " AND number LIKE '%" + room_number + "%'";
+			}
+			rs = stmt.executeQuery(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return rs;
+	}
+	
 	
 	public ResultSet FetchPatientOrRecord(int patient_ssn, String type)
 	{
@@ -376,7 +478,7 @@ public class DatabaseHelper {
 			String query = "SELECT * FROM " + type;
 			if(patient_ssn != -1)
 			{
-				query += " WHERE ssn LIKE " + patient_ssn;
+				query += " WHERE ssn LIKE '%" + patient_ssn + "%'";
 			}
 			rs = stmt.executeQuery(query);
 		} catch (SQLException e) {
