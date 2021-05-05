@@ -25,6 +25,7 @@ public class Add_Patient extends JFrame {
 	private JTextField patient_ln;
 	private JTextField patient_room;
 	private JTextField patient_floor;
+	private JTextField textField;
 
 	/**
 	 * Launch the application.
@@ -47,7 +48,7 @@ public class Add_Patient extends JFrame {
 	 */
 	public Add_Patient() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 450, 315);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -98,6 +99,15 @@ public class Add_Patient extends JFrame {
 		lblNewLabel_4.setBounds(52, 179, 86, 14);
 		contentPane.add(lblNewLabel_4);
 		
+		textField = new JTextField();
+		textField.setBounds(193, 204, 96, 20);
+		contentPane.add(textField);
+		textField.setColumns(10);
+		
+		JLabel lblNewLabel_6 = new JLabel("Arrival Date");
+		lblNewLabel_6.setBounds(52, 207, 86, 14);
+		contentPane.add(lblNewLabel_6);
+		
 		JButton btnNewButton = new JButton("submit");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -107,6 +117,7 @@ public class Add_Patient extends JFrame {
 				int ssn = Integer.parseInt(patient_ssn.getText());
 				int floor = Integer.parseInt(patient_floor.getText());
 				int room = Integer.parseInt(patient_room.getText());
+				String _arrival = textField.getText();
 				
 				Patient pat = new Patient();
 				pat.ssn = ssn;
@@ -114,6 +125,7 @@ public class Add_Patient extends JFrame {
 				pat.lname = ln;
 				pat.floor_number = floor;
 				pat.room_number = room;
+				pat.last_entered = _arrival;
 				
 				DatabaseHelper dbHelper = new DatabaseHelper();
 				dbHelper.AddPatient(pat);
@@ -125,11 +137,11 @@ public class Add_Patient extends JFrame {
 				}
 			}
 		});
-		btnNewButton.setBounds(200, 213, 89, 23);
+		btnNewButton.setBounds(193, 238, 96, 23);
 		contentPane.add(btnNewButton);
 		
 		JLabel lblNewLabel_5 = new JLabel("Add Patient");
-		lblNewLabel_5.setBounds(148, 11, 141, 30);
+		lblNewLabel_5.setBounds(209, 7, 141, 30);
 		contentPane.add(lblNewLabel_5);
 		
 		JButton btnNewButton_1 = new JButton("back");
@@ -141,5 +153,6 @@ public class Add_Patient extends JFrame {
 		});
 		btnNewButton_1.setBounds(10, 11, 89, 23);
 		contentPane.add(btnNewButton_1);
+		
 	}
 }

@@ -57,8 +57,8 @@ public class DatabaseHelper {
 	public void AddEmployee(Employee emp)
 	{
 		try {
-			String query = " insert into employee (ssn, fname, lname, salary, phone, dob, gender, country, zip, street)"
-			        + " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			String query = " insert into employee (ssn, fname, lname, salary, phone, dob, gender, country, zip, street, start_date)"
+			        + " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 	      PreparedStatement preparedStmt = _con.prepareStatement(query);
 	      preparedStmt.setInt(1, emp.ssn);
@@ -71,6 +71,7 @@ public class DatabaseHelper {
 	      preparedStmt.setString(8, emp.country);
 	      preparedStmt.setInt(9, emp.zip);
 	      preparedStmt.setString(10, emp.street);
+	      preparedStmt.setString(11, emp.start_date);
 	      
 	      preparedStmt.execute();
 		} catch (SQLException e) {
@@ -198,8 +199,8 @@ public class DatabaseHelper {
 	public void AddPatient(Patient pat) throws SQLException
 	{
 
-		  String query = " insert into patient (ssn, fname, lname, room_number, floor_number)"
-			        + " values (?, ?, ?, ?, ?)";
+		  String query = " insert into patient (ssn, fname, lname, room_number, floor_number, last_entered)"
+			        + " values (?, ?, ?, ?, ?, ?)";
 
 	      PreparedStatement preparedStmt = _con.prepareStatement(query);
 	      preparedStmt.setInt(1, pat.ssn);
@@ -207,6 +208,7 @@ public class DatabaseHelper {
 	      preparedStmt.setString(3, pat.lname);
 	      preparedStmt.setInt(4, pat.room_number);
 	      preparedStmt.setInt(5, pat.floor_number);
+	      preparedStmt.setString(6, pat.last_entered);
 	      
 	      preparedStmt.execute();
 
@@ -360,7 +362,7 @@ public class DatabaseHelper {
 		ResultSet rs = null;
 		try {
 			Statement stmt = _con.createStatement();
-			String query = "SELECT * FROM employee e, " + type + " t WHERE e.ssn=t.ssn";
+			String query = "SELECT * FROM " + type + "_emp WHERE ssn IS NOT NULL";
 			if(salary_operator != "None" && salary != -1)
 			{
 				query += " AND salary" + salary_operator + salary;
@@ -434,7 +436,7 @@ public class DatabaseHelper {
 		
 		try {
 			Statement stmt = _con.createStatement();
-			String query = "SELECT DISTINCT floor_number FROM room";
+			String query = "SELECT DISTINCT floor_number FROM room ORDER BY floor_number";
 			rs = stmt.executeQuery(query);
 			
 			while(rs.next())
@@ -453,7 +455,7 @@ public class DatabaseHelper {
 		ResultSet rs = null;
 		try {
 			Statement stmt = _con.createStatement();
-			String query = "SELECT * FROM room";
+			String query = "SELECT number AS room_number, number_beds AS number_of_beds, type  FROM room";
 			if(floor_number != null)
 			{
 				query += " WHERE floor_number=" + floor_number;
@@ -485,6 +487,27 @@ public class DatabaseHelper {
 			e.printStackTrace();
 		}
 		return rs;
+	}
+	
+	public void EditMedicalRecord(MedicalRecord med) throws SQLException
+	{
+		  String query = "UPDATE medical_record SET address = ?, phone = ?, has_insurance = ?, dob = ?, blood_type = ?, maintainer_ssn = ? WHERE ssn=" + med.ssn;
+	      PreparedStatement preparedStmt = _con.prepareStatement(query);
+	      preparedStmt.setString(1, med.address);
+	      preparedStmt.setInt(2, med.phone);
+	      preparedStmt.setBoolean(3, med.has_insurance);
+	      preparedStmt.setString(4, med.dob);
+	      preparedStmt.setString(5, med.blood_type);
+	      preparedStmt.setInt(6, med.maintainer_ssn);
+	      System.out.println(preparedStmt.toString());
+	      preparedStmt.executeUpdate();
+	}
+	
+	public void DeleteMedicalRecord(int patient_ssn) throws SQLException
+	{
+		 String query = "DELETE FROM medical_record WHERE ssn=" + patient_ssn;
+		 PreparedStatement preparedStmt = _con.prepareStatement(query);
+		 preparedStmt.execute();
 	}
 	
 }

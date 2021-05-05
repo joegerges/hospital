@@ -34,6 +34,7 @@ public class Add_Janitor extends JFrame {
 	private JTextField street;
 	private JTextField working_hours;
 	private JTextField nationality;
+	private JTextField textField;
 
 	/**
 	 * Launch the application.
@@ -114,6 +115,15 @@ public class Add_Janitor extends JFrame {
 		contentPane.add(gender);
 		gender.setSelectedItem(null);
 		
+		JLabel startDate = new JLabel("Start Date");
+		startDate.setBounds(10, 244, 86, 14);
+		contentPane.add(startDate);
+		
+		textField = new JTextField();
+		textField.setBounds(104, 241, 96, 20);
+		contentPane.add(textField);
+		textField.setColumns(10);
+		
 		JButton btnNewButton = new JButton("submit");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -135,6 +145,7 @@ public class Add_Janitor extends JFrame {
 				int ssn = Integer.parseInt(emp_ssn.getText());
 				int phone_numberr = Integer.parseInt(phone_number.getText());
 				int salaryy = Integer.parseInt(salary.getText());
+				String _start_date = (String) textField.getText();
 				
 				emp.ssn = ssn;
 				emp.fname = fn;
@@ -146,6 +157,7 @@ public class Add_Janitor extends JFrame {
 				emp.country = _country;
 				emp.zip = _zip;
 				emp.street = _street;
+				emp.start_date = _start_date;
 				
 				jan.ssn = ssn;
 				jan.working_hours = _working_hours;

@@ -35,6 +35,7 @@ public class Add_Receptionist extends JFrame {
 	private JTextField working_hours;
 	private JTextField internal_number;
 	private JPasswordField passwordField;
+	private JTextField textField;
 
 	/**
 	 * Launch the application.
@@ -118,12 +119,21 @@ public class Add_Receptionist extends JFrame {
 		gender.setSelectedItem(null);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(204, 247, 89, 20);
+		passwordField.setBounds(347, 235, 96, 20);
 		contentPane.add(passwordField);
 		
 		JLabel lblNewLabel_14 = new JLabel("Password");
-		lblNewLabel_14.setBounds(136, 250, 64, 14);
+		lblNewLabel_14.setBounds(258, 238, 64, 14);
 		contentPane.add(lblNewLabel_14);
+		
+		JLabel startDate = new JLabel("Start Date");
+		startDate.setBounds(10, 238, 86, 14);
+		contentPane.add(startDate);
+		
+		textField = new JTextField();
+		textField.setBounds(104, 235, 96, 20);
+		contentPane.add(textField);
+		textField.setColumns(10);
 		
 		JButton btnNewButton = new JButton("submit");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -145,6 +155,7 @@ public class Add_Receptionist extends JFrame {
 				int phone_numberr = Integer.parseInt(phone_number.getText());
 				int salaryy = Integer.parseInt(salary.getText());
 				String password = passwordField.getText();
+				String _start_date = (String) textField.getText();
 				
 				emp.ssn = ssn;
 				emp.fname = fn;
@@ -156,6 +167,7 @@ public class Add_Receptionist extends JFrame {
 				emp.country = _country;
 				emp.zip = _zip;
 				emp.street = _street;
+				emp.start_date = _start_date;
 				
 				rec.ssn = ssn;
 				rec.working_hours = _working_hours;

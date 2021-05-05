@@ -11,4 +11,5 @@ public class Employee {
 	public String country;
 	public int zip;
 	public String street;
+	public String start_date;
 }

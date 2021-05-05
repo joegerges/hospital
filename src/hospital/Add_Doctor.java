@@ -35,6 +35,7 @@ public class Add_Doctor extends JFrame {
 	private JTextField zip;
 	private JTextField street;
 	private JTextField type;
+	private JTextField textField;
 
 	/**
 	 * Launch the application.
@@ -122,6 +123,15 @@ public class Add_Doctor extends JFrame {
 		contentPane.add(gender);
 		gender.setSelectedItem(null);
 		
+		JLabel startDate = new JLabel("Start Date");
+		startDate.setBounds(10, 271, 86, 14);
+		contentPane.add(startDate);
+		
+		textField = new JTextField();
+		textField.setBounds(104, 268, 96, 20);
+		contentPane.add(textField);
+		textField.setColumns(10);
+		
 		JButton btnNewButton = new JButton("submit");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -145,6 +155,7 @@ public class Add_Doctor extends JFrame {
 				int phone_numberr = Integer.parseInt(phone_number.getText());
 				int salaryy = Integer.parseInt(salary.getText());
 				String _has_clinic = (String) has_clinic.getSelectedItem();
+				String _start_date = (String) textField.getText();
 				
 				emp.ssn = ssn;
 				emp.fname = fn;
@@ -156,6 +167,7 @@ public class Add_Doctor extends JFrame {
 				emp.country = _country;
 				emp.zip = _zip;
 				emp.street = _street;
+				emp.start_date = _start_date;
 				
 				doc.has_clinic = (_has_clinic == "yes"? true: false);
 				doc.qualification = quali;
@@ -264,6 +276,7 @@ public class Add_Doctor extends JFrame {
 		});
 		btnNewButton_1.setBounds(7, 11, 89, 23);
 		contentPane.add(btnNewButton_1);
+		
 		
 	
 		

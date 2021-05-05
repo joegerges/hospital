@@ -6,4 +6,5 @@ public class Patient {
 	public String lname;
 	public int room_number;
 	public int floor_number;
+	public String last_entered;
 }

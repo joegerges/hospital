@@ -28,11 +28,12 @@ public class Add_Nurse extends JFrame {
 	private JTextField salary;
 	private JTextField phone_number;
 	private JTextField dob;
-	private JTextField fax;
 	private JTextField country;
 	private JTextField zip;
 	private JTextField street;
 	private JTextField working_hours;
+	private JTextField textField;
+
 
 	/**
 	 * Launch the application.
@@ -55,7 +56,7 @@ public class Add_Nurse extends JFrame {
 	 */
 	public Add_Nurse() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 500, 327);
+		setBounds(100, 100, 500, 319);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -113,6 +114,15 @@ public class Add_Nurse extends JFrame {
 		contentPane.add(gender);
 		gender.setSelectedItem(null);
 		
+		JLabel startDate = new JLabel("Start Date");
+		startDate.setBounds(258, 207, 86, 14);
+		contentPane.add(startDate);
+		
+		textField = new JTextField();
+		textField.setBounds(347, 204, 96, 20);
+		contentPane.add(textField);
+		textField.setColumns(10);
+		
 		JButton btnNewButton = new JButton("submit");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -124,7 +134,6 @@ public class Add_Nurse extends JFrame {
 				
 				String fn = emp_fn.getText();
 				String _dob = dob.getText();
-				String _fax = fax.getText();
 				String _country = country.getText();
 				String _street = street.getText();
 				int _zip = Integer.parseInt(zip.getText());
@@ -134,7 +143,7 @@ public class Add_Nurse extends JFrame {
 				int ssn = Integer.parseInt(emp_ssn.getText());
 				int phone_numberr = Integer.parseInt(phone_number.getText());
 				int salaryy = Integer.parseInt(salary.getText());
-
+				String _start_date = textField.getText();
 				
 				emp.ssn = ssn;
 				emp.fname = fn;
@@ -146,6 +155,7 @@ public class Add_Nurse extends JFrame {
 				emp.country = _country;
 				emp.zip = _zip;
 				emp.street = _street;
+				emp.start_date = _start_date;
 				
 				nur.ssn = ssn;
 				nur.working_hours = _working_hours;
@@ -162,7 +172,7 @@ public class Add_Nurse extends JFrame {
 			
 			}
 		});
-		btnNewButton.setBounds(199, 256, 89, 23);
+		btnNewButton.setBounds(201, 247, 89, 23);
 		contentPane.add(btnNewButton);
 		
 		JLabel lblNewLabel_5 = new JLabel("Add Nurse");
@@ -170,12 +180,8 @@ public class Add_Nurse extends JFrame {
 		contentPane.add(lblNewLabel_5);
 		
 		JLabel lblNewLabel_6 = new JLabel("DOB");
-		lblNewLabel_6.setBounds(10, 213, 49, 14);
+		lblNewLabel_6.setBounds(10, 207, 49, 14);
 		contentPane.add(lblNewLabel_6);
-		
-		JLabel lblNewLabel_7 = new JLabel("Fax");
-		lblNewLabel_7.setBounds(258, 207, 49, 14);
-		contentPane.add(lblNewLabel_7);
 		
 		JLabel lblNewLabel_8 = new JLabel("Gender");
 		lblNewLabel_8.setBounds(258, 145, 49, 14);
@@ -197,11 +203,6 @@ public class Add_Nurse extends JFrame {
 		dob.setBounds(104, 204, 96, 20);
 		contentPane.add(dob);
 		dob.setColumns(10);
-		
-		fax = new JTextField();
-		fax.setBounds(347, 201, 96, 20);
-		contentPane.add(fax);
-		fax.setColumns(10);
 		
 		country = new JTextField();
 		country.setBounds(347, 49, 96, 20);

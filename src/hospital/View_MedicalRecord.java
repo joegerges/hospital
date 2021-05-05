@@ -4,7 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,12 +15,16 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 
+import hospital.DataContracts.MedicalRecord;
 import net.proteanit.sql.DbUtils;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.DefaultComboBoxModel;
 
 public class View_MedicalRecord extends JFrame {
 
@@ -26,6 +32,15 @@ public class View_MedicalRecord extends JFrame {
 	private JTextField search_ssn;
 	private JTable table;
 	private JFrame frame;
+	private final JLabel lblNewLabel = new JLabel("Selected Record:");
+	private JTextField addressEdit;
+	private JTextField phoneEdit;
+	private JComboBox<Boolean> hasInsuranceEdit;
+	private JTextField dobEdit;
+	private JTextField bloodTypeEdit;
+	private JTextField maintainerSsnEdit;
+	private JButton editBtn;
+	private JButton btnDelete;
 
 	/**
 	 * Launch the application.
@@ -48,7 +63,7 @@ public class View_MedicalRecord extends JFrame {
 	 */
 	public View_MedicalRecord() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 715, 370);
+		setBounds(100, 100, 760, 437);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -73,7 +88,7 @@ public class View_MedicalRecord extends JFrame {
 		table = new JTable();
 		table.setBounds(10, 99, 414, 197);
 		scrollPane.setViewportView(table);
-		scrollPane.setBounds(10, 93, 679, 227);
+		scrollPane.setBounds(10, 93, 724, 227);
 		getContentPane().add(scrollPane);
 		
 		JButton btnNewButton_1 = new JButton("submit");
@@ -96,7 +111,7 @@ public class View_MedicalRecord extends JFrame {
 				
 			}
 		});
-		btnNewButton_1.setBounds(600, 59, 89, 23);
+		btnNewButton_1.setBounds(645, 59, 89, 23);
 		contentPane.add(btnNewButton_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("View Medical Records");
@@ -111,7 +126,111 @@ public class View_MedicalRecord extends JFrame {
 		search_ssn.setBounds(143, 60, 96, 20);
 		contentPane.add(search_ssn);
 		search_ssn.setColumns(10);
+		lblNewLabel.setBounds(10, 331, 123, 31);
+		contentPane.add(lblNewLabel);
 		
+		addressEdit = new JTextField();
+		addressEdit.setColumns(10);
+		addressEdit.setBounds(10, 363, 86, 20);
+		contentPane.add(addressEdit);
+		
+		phoneEdit = new JTextField();
+		phoneEdit.setColumns(10);
+		phoneEdit.setBounds(106, 363, 86, 20);
+		contentPane.add(phoneEdit);
+		
+		hasInsuranceEdit = new JComboBox<Boolean>();
+		hasInsuranceEdit.addItem(true);
+		hasInsuranceEdit.addItem(false);
+		hasInsuranceEdit.setBounds(202, 363, 86, 20);
+		contentPane.add(hasInsuranceEdit);
+		hasInsuranceEdit.setSelectedItem(null);
+		
+		dobEdit = new JTextField();
+		dobEdit.setColumns(10);
+		dobEdit.setBounds(298, 363, 86, 20);
+		contentPane.add(dobEdit);
+		
+		bloodTypeEdit = new JTextField();
+		bloodTypeEdit.setColumns(10);
+		bloodTypeEdit.setBounds(394, 363, 86, 20);
+		contentPane.add(bloodTypeEdit);
+		
+		maintainerSsnEdit = new JTextField();
+		maintainerSsnEdit.setColumns(10);
+		maintainerSsnEdit.setBounds(490, 363, 86, 20);
+		contentPane.add(maintainerSsnEdit);
+		
+		editBtn = new JButton("edit");
+		editBtn.setBounds(586, 362, 70, 23);
+		contentPane.add(editBtn);
+		
+		btnDelete = new JButton("delete");
+		btnDelete.setBounds(664, 362, 70, 23);
+		contentPane.add(btnDelete);
+		
+		MedicalRecord medc = new MedicalRecord();
+		
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row = table.getSelectedRow();
+				medc.ssn = (int) table.getModel().getValueAt(row, 0);
+				addressEdit.setText((String) table.getModel().getValueAt(row, 1));
+				phoneEdit.setText(String.valueOf(table.getModel().getValueAt(row, 2)));
+				hasInsuranceEdit.setSelectedItem(table.getModel().getValueAt(row, 3));
+				dobEdit.setText( (String) ((Date) table.getModel().getValueAt(row, 4)).toString());
+				bloodTypeEdit.setText((String) table.getModel().getValueAt(row, 5));
+				maintainerSsnEdit.setText(String.valueOf(table.getModel().getValueAt(row, 6)));
+			}
+		});
+		
+		
+		editBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DatabaseHelper dbHelper = new DatabaseHelper();
+				try {
+					int _search_ssn = -1;
+					if(!search_ssn.getText().isEmpty()) _search_ssn = Integer.parseInt(search_ssn.getText());
+					
+					medc.address = addressEdit.getText();
+					medc.phone = Integer.parseInt(phoneEdit.getText());
+					medc.has_insurance = (boolean) hasInsuranceEdit.getSelectedItem();
+					medc.dob = dobEdit.getText();
+					medc.blood_type = bloodTypeEdit.getText();
+					medc.maintainer_ssn = Integer.parseInt(maintainerSsnEdit.getText());
+					dbHelper.EditMedicalRecord(medc);
+					
+					ResultSet medRs = dbHelper.FetchPatientOrRecord(_search_ssn, "medical_record");	
+					table.setModel(DbUtils.resultSetToTableModel(medRs));
+					
+					JOptionPane.showMessageDialog(frame, "Successfully edited this record", "Success", JOptionPane.INFORMATION_MESSAGE);
+				}
+				catch(Exception e1)
+				{
+					JOptionPane.showMessageDialog(frame, "Oops, something went wrong", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		
+		btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DatabaseHelper dbHelper = new DatabaseHelper();
+				try {
+					int _search_ssn = -1;
+					if(!search_ssn.getText().isEmpty()) _search_ssn = Integer.parseInt(search_ssn.getText());
+					dbHelper.DeleteMedicalRecord(medc.ssn);
+					ResultSet medRs = dbHelper.FetchPatientOrRecord(_search_ssn, "medical_record");	
+					table.setModel(DbUtils.resultSetToTableModel(medRs));
+					JOptionPane.showMessageDialog(frame, "Successfully deleted this record", "Success", JOptionPane.INFORMATION_MESSAGE);
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(frame, "Oops, something went wrong", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 		
 		
 	}
