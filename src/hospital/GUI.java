@@ -199,6 +199,15 @@ public class GUI {
 			}
 		});
 		panel.add(btnNewButton_1);
+		
+		JButton btnNewButton_5 = new JButton("Assign Emp. to Room");
+		btnNewButton_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Assign_toRoom varAssign = new Assign_toRoom();	
+				varAssign.setVisible(true);
+			}
+		});
+		panel.add(btnNewButton_5);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Hospital");	
 		frame.pack();
