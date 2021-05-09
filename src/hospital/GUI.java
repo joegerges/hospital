@@ -41,7 +41,7 @@ public class GUI {
 
 		JPanel panel = new JPanel();
 		//panel.setBorder(BorderFactory.createEmptyBorder(300,300,200,400));
-		panel.setBorder(BorderFactory.createEmptyBorder(150,150,100,200));
+		panel.setBorder(BorderFactory.createEmptyBorder(50,150,100,200));
 
 		//button.add(button);
 		frame.getContentPane().add(panel, BorderLayout.NORTH);
@@ -86,6 +86,15 @@ public class GUI {
 				varViewEmp.setVisible(true);
 			}
 		});
+		
+		JButton btnNewButton_8 = new JButton("Doctor Info");
+		btnNewButton_8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Doctor_Info vardocinfo = new Doctor_Info();	
+				vardocinfo.setVisible(true);
+			}
+		});
+		panel.add(btnNewButton_8);
 		panel.add(btnNewButton_4);
 		
 		JButton btnNewButton_3 = new JButton("View Treatments");

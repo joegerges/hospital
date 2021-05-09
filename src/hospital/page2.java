@@ -49,11 +49,11 @@ public class page2 extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Let's find all patients that payed on 03-05-2021, with a total above 15 000 ,");
-		lblNewLabel.setBounds(20, 22, 404, 32);
+		lblNewLabel.setBounds(20, 22, 517, 32);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("older than 64, having taken the Chemiotherapy treatment and dexamethasone");
-		lblNewLabel_1.setBounds(20, 46, 391, 39);
+		lblNewLabel_1.setBounds(20, 46, 539, 39);
 		contentPane.add(lblNewLabel_1);
 		
 		payment_date = new JTextField();

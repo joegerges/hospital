@@ -20,10 +20,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
-public class View_Patient extends JFrame {
+public class Doctor_Info extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField search;
+	private JTextField doc_ssn;
 	private JTable table;
 	private JFrame frame;
 	/**
@@ -33,7 +33,7 @@ public class View_Patient extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					View_Patient frame = new View_Patient();
+					Doctor_Info frame = new Doctor_Info();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -45,7 +45,7 @@ public class View_Patient extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public View_Patient() {
+	public Doctor_Info() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 713, 363);
 		contentPane = new JPanel();
@@ -78,9 +78,8 @@ public class View_Patient extends JFrame {
 		JComboBox search_by = new JComboBox();
 		search_by.setBounds(117, 60, 96, 22);
 		contentPane.add(search_by);
-		search_by.addItem("ssn");
-		search_by.addItem("first name");
-		search_by.addItem("last name");
+		search_by.addItem("qualifications");
+		search_by.addItem("specializations");
 		search_by.setSelectedItem(null);
 		
 		JButton btnNewButton_1 = new JButton("submit");
@@ -90,11 +89,11 @@ public class View_Patient extends JFrame {
 					
 					String _search_by = (String) search_by.getSelectedItem();
 					
-					int _search = -1;
-					if(!search.getText().isEmpty()) _search = Integer.parseInt(search.getText());
+					int _doc_ssn = -1;
+					if(!doc_ssn.getText().isEmpty()) _doc_ssn = Integer.parseInt(doc_ssn.getText());
 					
 					DatabaseHelper dbHelper = new DatabaseHelper();
-					ResultSet medRs = dbHelper.FetchPatientOrRecord(_search, "patient");
+					ResultSet medRs = dbHelper.FetchPatientOrRecord(_doc_ssn, "patient");
 					
 					table.setModel(DbUtils.resultSetToTableModel(medRs));
 					
@@ -109,18 +108,22 @@ public class View_Patient extends JFrame {
 		btnNewButton_1.setBounds(600, 59, 89, 23);
 		contentPane.add(btnNewButton_1);
 		
-		JLabel lblNewLabel_2 = new JLabel("View Patient");
-		lblNewLabel_2.setBounds(313, 15, 130, 14);
+		JLabel lblNewLabel_2 = new JLabel("View Doctor Info");
+		lblNewLabel_2.setBounds(315, 11, 130, 14);
 		contentPane.add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_4 = new JLabel("Search by:");
 		lblNewLabel_4.setBounds(37, 63, 96, 14);
 		contentPane.add(lblNewLabel_4);
 		
-		search = new JTextField();
-		search.setBounds(247, 62, 96, 20);
-		contentPane.add(search);
-		search.setColumns(10);
+		doc_ssn = new JTextField();
+		doc_ssn.setBounds(365, 62, 96, 20);
+		contentPane.add(doc_ssn);
+		doc_ssn.setColumns(10);
+		
+		JLabel lblNewLabel = new JLabel("Doctor SSN:");
+		lblNewLabel.setBounds(289, 64, 110, 14);
+		contentPane.add(lblNewLabel);
 		
 		
 		

@@ -109,10 +109,24 @@ public class View_Employees extends JFrame {
 		lblNewLabel_1.setBounds(251, 140, 123, 14);
 		contentPane.add(lblNewLabel_1);
 		
+
+		JComboBox search_by = new JComboBox();
+		search_by.setBounds(119, 104, 123, 22);
+		contentPane.add(search_by);
+		search_by.addItem("ssn");
+		search_by.addItem("first name");
+		search_by.addItem("last name");
+		search_by.addItem("gender");
+		search_by.addItem("country");
+		search_by.setSelectedItem(null);
+		
 		JButton btnNewButton_1 = new JButton("submit");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					
+				String _search_by = (String) search_by.getSelectedItem();
+					
 				int _salary_amount = -1;
 				int _search_ssn = -1;
 				
@@ -144,12 +158,12 @@ public class View_Employees extends JFrame {
 		lblNewLabel_3.setBounds(37, 65, 96, 14);
 		contentPane.add(lblNewLabel_3);
 		
-		JLabel lblNewLabel_4 = new JLabel("Search by SSN");
+		JLabel lblNewLabel_4 = new JLabel("Search by:");
 		lblNewLabel_4.setBounds(37, 108, 96, 14);
 		contentPane.add(lblNewLabel_4);
 		
 		search_ssn = new JTextField();
-		search_ssn.setBounds(153, 105, 194, 20);
+		search_ssn.setBounds(263, 105, 144, 20);
 		contentPane.add(search_ssn);
 		search_ssn.setColumns(10);
 		
