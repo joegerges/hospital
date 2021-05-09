@@ -23,7 +23,6 @@ public class Add_MedicalRecord extends JFrame {
 	private JFrame frame;
 	private JPanel contentPane;
 	private JTextField MedicalRecord_ssn;
-	private JTextField RecordID;
 	private JTextField Record_Address;
 	private JTextField Record_Phone;
 	private JTextField DOB;
@@ -59,14 +58,9 @@ public class Add_MedicalRecord extends JFrame {
 		contentPane.setLayout(null);
 		
 		MedicalRecord_ssn = new JTextField();
-		MedicalRecord_ssn.setBounds(193, 49, 96, 20);
+		MedicalRecord_ssn.setBounds(193, 80, 96, 20);
 		contentPane.add(MedicalRecord_ssn);
 		MedicalRecord_ssn.setColumns(10);
-		
-		RecordID = new JTextField();
-		RecordID.setBounds(193, 80, 96, 20);
-		contentPane.add(RecordID);
-		RecordID.setColumns(10);
 		
 		Record_Address = new JTextField();
 		Record_Address.setBounds(193, 111, 96, 20);
@@ -79,12 +73,8 @@ public class Add_MedicalRecord extends JFrame {
 		Record_Phone.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("SSN");
-		lblNewLabel.setBounds(52, 52, 49, 14);
+		lblNewLabel.setBounds(50, 83, 49, 14);
 		contentPane.add(lblNewLabel);
-		
-		JLabel lblNewLabel_1 = new JLabel("Record ID");
-		lblNewLabel_1.setBounds(52, 86, 64, 14);
-		contentPane.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Address");
 		lblNewLabel_2.setBounds(52, 117, 86, 14);
@@ -145,7 +135,6 @@ public class Add_MedicalRecord extends JFrame {
 				String blood = Blood_Type.getText();
 				String _has_insurance = (String) has_insurance.getSelectedItem();
 				int ssn = Integer.parseInt(MedicalRecord_ssn.getText());
-				int record_id = Integer.parseInt(RecordID.getText());
 				int phone = Integer.parseInt(Record_Phone.getText());
 				int maintainer_ssn = Integer.parseInt(maintener_ssn.getText());
 				

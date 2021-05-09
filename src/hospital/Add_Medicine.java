@@ -24,6 +24,7 @@ public class Add_Medicine extends JFrame {
 	private JTextField quantity;
 	private JTextField expiry_date;
 	private JTextField price;
+	private JTextField medName;
 
 	/**
 	 * Launch the application.
@@ -53,22 +54,22 @@ public class Add_Medicine extends JFrame {
 		contentPane.setLayout(null);
 		
 		code = new JTextField();
-		code.setBounds(193, 49, 96, 20);
+		code.setBounds(193, 46, 96, 20);
 		contentPane.add(code);
 		code.setColumns(10);
 		
 		quantity = new JTextField();
-		quantity.setBounds(193, 80, 96, 20);
+		quantity.setBounds(193, 103, 96, 20);
 		contentPane.add(quantity);
 		quantity.setColumns(10);
 		
 		expiry_date = new JTextField();
-		expiry_date.setBounds(193, 111, 96, 20);
+		expiry_date.setBounds(193, 134, 96, 20);
 		contentPane.add(expiry_date);
 		expiry_date.setColumns(10);
 		
 		price = new JTextField();
-		price.setBounds(193, 142, 96, 20);
+		price.setBounds(193, 165, 96, 20);
 		contentPane.add(price);
 		price.setColumns(10);
 		
@@ -77,16 +78,21 @@ public class Add_Medicine extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Quantity");
-		lblNewLabel_1.setBounds(52, 86, 64, 14);
+		lblNewLabel_1.setBounds(52, 106, 64, 14);
 		contentPane.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Expiry Date");
-		lblNewLabel_2.setBounds(52, 117, 86, 14);
+		lblNewLabel_2.setBounds(52, 137, 86, 14);
 		contentPane.add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_3 = new JLabel("Price");
-		lblNewLabel_3.setBounds(52, 148, 86, 14);
+		lblNewLabel_3.setBounds(52, 168, 86, 14);
 		contentPane.add(lblNewLabel_3);
+		
+		medName = new JTextField();
+		medName.setColumns(10);
+		medName.setBounds(193, 72, 96, 20);
+		contentPane.add(medName);
 		
 		JButton btnNewButton = new JButton("submit");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -96,12 +102,14 @@ public class Add_Medicine extends JFrame {
 				int _code = Integer.parseInt(code.getText());
 				int qte = Integer.parseInt(quantity.getText());
 				int _price = Integer.parseInt(price.getText());
+				String _med_name = medName.getText();
 				
 				Medicine med = new Medicine();
 				med.code_number = _code;
 				med.expiry_date = exp;
 				med.price = _price;
 				med.quantity = qte;
+				med.med_name = _med_name;
 				
 				DatabaseHelper dbHelper = new DatabaseHelper();
 				dbHelper.AddMedicine(med);
@@ -115,7 +123,7 @@ public class Add_Medicine extends JFrame {
 				
 			}
 		});
-		btnNewButton.setBounds(122, 186, 89, 23);
+		btnNewButton.setBounds(143, 196, 89, 23);
 		contentPane.add(btnNewButton);
 		
 		JLabel lblNewLabel_5 = new JLabel("Add Medicine");
@@ -131,5 +139,10 @@ public class Add_Medicine extends JFrame {
 		});
 		btnNewButton_1.setBounds(10, 11, 89, 23);
 		contentPane.add(btnNewButton_1);
+		
+		JLabel lblName = new JLabel("Name");
+		lblName.setBounds(52, 81, 49, 14);
+		contentPane.add(lblName);
+	
 	}
 }

@@ -78,10 +78,11 @@ public class View_Patient extends JFrame {
 		JComboBox search_by = new JComboBox();
 		search_by.setBounds(117, 60, 96, 22);
 		contentPane.add(search_by);
+		search_by.addItem("None");
 		search_by.addItem("ssn");
-		search_by.addItem("first name");
-		search_by.addItem("last name");
-		search_by.setSelectedItem(null);
+		search_by.addItem("fname");
+		search_by.addItem("lname");
+		search_by.setSelectedItem("None");
 		
 		JButton btnNewButton_1 = new JButton("submit");
 		btnNewButton_1.addActionListener(new ActionListener() {
@@ -89,12 +90,12 @@ public class View_Patient extends JFrame {
 				try {
 					
 					String _search_by = (String) search_by.getSelectedItem();
+					String _search_value = "-1";
 					
-					int _search = -1;
-					if(!search.getText().isEmpty()) _search = Integer.parseInt(search.getText());
+					if(!search.getText().isEmpty()) _search_value=search.getText();
 					
 					DatabaseHelper dbHelper = new DatabaseHelper();
-					ResultSet medRs = dbHelper.FetchPatientOrRecord(_search, "patient");
+					ResultSet medRs = dbHelper.FetchPatientOrRecord(_search_by, _search_value, "patient");
 					
 					table.setModel(DbUtils.resultSetToTableModel(medRs));
 					

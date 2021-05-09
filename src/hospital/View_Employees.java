@@ -95,7 +95,7 @@ public class View_Employees extends JFrame {
 		btnNewButton.setBounds(10, 11, 89, 23);
 		contentPane.add(btnNewButton);
 		
-		JLabel lblNewLabel = new JLabel("filter by salary");
+		JLabel lblNewLabel = new JLabel("Filter by salary");
 		lblNewLabel.setBounds(37, 154, 123, 23);
 		contentPane.add(lblNewLabel);
 		
@@ -113,12 +113,13 @@ public class View_Employees extends JFrame {
 		JComboBox search_by = new JComboBox();
 		search_by.setBounds(119, 104, 123, 22);
 		contentPane.add(search_by);
+		search_by.addItem("None");
 		search_by.addItem("ssn");
-		search_by.addItem("first name");
-		search_by.addItem("last name");
+		search_by.addItem("fname");
+		search_by.addItem("lname");
 		search_by.addItem("gender");
 		search_by.addItem("country");
-		search_by.setSelectedItem(null);
+		search_by.setSelectedItem("None");
 		
 		JButton btnNewButton_1 = new JButton("submit");
 		btnNewButton_1.addActionListener(new ActionListener() {
@@ -128,14 +129,15 @@ public class View_Employees extends JFrame {
 				String _search_by = (String) search_by.getSelectedItem();
 					
 				int _salary_amount = -1;
-				int _search_ssn = -1;
+				String _search_value = "-1";
 				
 				String _operator = (String) salary_operators.getSelectedItem();
 				String _emp_type = (String) emp_type.getSelectedItem();
 				if(!salary_amount.getText().isEmpty()) _salary_amount = Integer.parseInt(salary_amount.getText());
-				if(!search_ssn.getText().isEmpty()) _search_ssn = Integer.parseInt(search_ssn.getText());
+				if(!search_ssn.getText().isEmpty()) _search_value = search_ssn.getText();
+				
 				DatabaseHelper dbHelper = new DatabaseHelper();
-				ResultSet empsRs = dbHelper.GetEmployees(_emp_type, _search_ssn, _operator, _salary_amount);
+				ResultSet empsRs = dbHelper.GetEmployees(_emp_type, _search_by, _search_value, _operator, _salary_amount);
 				
 				table.setModel(DbUtils.resultSetToTableModel(empsRs));
 				

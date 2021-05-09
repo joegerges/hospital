@@ -93,7 +93,8 @@ public class Doctor_Info extends JFrame {
 					if(!doc_ssn.getText().isEmpty()) _doc_ssn = Integer.parseInt(doc_ssn.getText());
 					
 					DatabaseHelper dbHelper = new DatabaseHelper();
-					ResultSet medRs = dbHelper.FetchPatientOrRecord(_doc_ssn, "patient");
+					_search_by = (_search_by=="qualifications" ? "qual": "spec");
+					ResultSet medRs = dbHelper.GetDocQualOrSpec(_search_by, _doc_ssn);
 					
 					table.setModel(DbUtils.resultSetToTableModel(medRs));
 					
@@ -112,7 +113,7 @@ public class Doctor_Info extends JFrame {
 		lblNewLabel_2.setBounds(315, 11, 130, 14);
 		contentPane.add(lblNewLabel_2);
 		
-		JLabel lblNewLabel_4 = new JLabel("Search by:");
+		JLabel lblNewLabel_4 = new JLabel("Filter by:");
 		lblNewLabel_4.setBounds(37, 63, 96, 14);
 		contentPane.add(lblNewLabel_4);
 		

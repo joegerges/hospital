@@ -5,12 +5,22 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
+
+import net.proteanit.sql.DbUtils;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.awt.event.ActionEvent;
 
 public class page1 extends JFrame {
@@ -18,7 +28,10 @@ public class page1 extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtBloodTyoe;
 	private JTextField txtPatientArrivalDate;
-
+	private JTable table;
+	private JTextField patientAge;
+	private JTextField nurseExperience;
+	private JFrame frame;
 	/**
 	 * Launch the application.
 	 */
@@ -41,55 +54,38 @@ public class page1 extends JFrame {
 	public page1() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 974, 419);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Let's find all patients with Blood Type A- , older than 25, having arrived");
+		JLabel lblNewLabel = new JLabel("Let's find the details of patients with Blood Type X , older than Y, having arrived");
 		lblNewLabel.setBounds(20, 24, 508, 32);
 		contentPane.add(lblNewLabel);
 		
-		JLabel lblNewLabel_1 = new JLabel("before 2020, whose nurse had more than 5 years of experience");
+		JLabel lblNewLabel_1 = new JLabel("before Z date, whose nurse had more than M years of experience");
 		lblNewLabel_1.setBounds(20, 50, 451, 39);
 		contentPane.add(lblNewLabel_1);
 		
 		txtBloodTyoe = new JTextField();
-		txtBloodTyoe.setText("Blood type");
-		txtBloodTyoe.setBounds(10, 90, 86, 20);
+		txtBloodTyoe.setText("Patient Blood type");
+		txtBloodTyoe.setBounds(10, 90, 140, 20);
 		contentPane.add(txtBloodTyoe);
 		txtBloodTyoe.setColumns(10);
 		
 		txtPatientArrivalDate = new JTextField();
 		txtPatientArrivalDate.setText("Patient Arrival Date");
 		txtPatientArrivalDate.setColumns(10);
-		txtPatientArrivalDate.setBounds(221, 90, 116, 20);
+		txtPatientArrivalDate.setBounds(10, 121, 140, 20);
 		contentPane.add(txtPatientArrivalDate);
 		
-		JComboBox Age = new JComboBox();
-		Age.setToolTipText("");
-		Age.setBounds(62, 169, 76, 20);
-		contentPane.add(Age);
-		Age.addItem(null);
-		Age.addItem(18);
-		Age.addItem(21);
-		Age.addItem(25);
-		Age.addItem(30);
-		Age.addItem(40);
-		Age.addItem(50);
-		Age.addItem(64);
-		Age.addItem(70);
-		Age.addItem(80);
-		Age.addItem(90);
-		Age.addItem(100);
-		
 		JLabel lblNewLabel_2 = new JLabel("Age");
-		lblNewLabel_2.setBounds(30, 144, 48, 14);
+		lblNewLabel_2.setBounds(10, 152, 48, 14);
 		contentPane.add(lblNewLabel_2);
 		
 		JLabel lblNurseExperience = new JLabel("Nurse  experience");
-		lblNurseExperience.setBounds(221, 144, 181, 14);
+		lblNurseExperience.setBounds(187, 152, 138, 14);
 		contentPane.add(lblNurseExperience);
 		
 		JComboBox operators_patient = new JComboBox();
@@ -106,7 +102,7 @@ public class page1 extends JFrame {
 		
 		JComboBox operators_nurse = new JComboBox();
 		operators_nurse.setToolTipText("");
-		operators_nurse.setBounds(221, 169, 42, 20);
+		operators_nurse.setBounds(187, 169, 42, 20);
 		contentPane.add(operators_nurse);
 		operators_nurse.addItem(null);
 		operators_nurse.addItem(">");
@@ -115,38 +111,72 @@ public class page1 extends JFrame {
 		operators_nurse.addItem("<=");
 		operators_nurse.addItem("=");
 		
-
-		JComboBox experience = new JComboBox();
-		experience.setToolTipText("");
-		experience.setBounds(273, 169, 76, 20);
-		contentPane.add(experience);
-		experience.addItem(null);
-		experience.addItem(0);
-		experience.addItem(1);
-		experience.addItem(2);
-		experience.addItem(3);
-		experience.addItem(5);
-		experience.addItem(7);
-		experience.addItem(10);
-		experience.addItem(15);
-		experience.addItem(20);
+		JScrollPane scrollPane = new JScrollPane();
+		
+		table = new JTable();
+		table.setBounds(10, 99, 414, 197);
+		scrollPane.setViewportView(table);
+		scrollPane.setBounds(10, 200, 948, 176);
+		getContentPane().add(scrollPane);
 			
 		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				try {
 				String _operators_patient= (String) operators_patient.getSelectedItem();
 				String _operators_nurse= (String) operators_nurse.getSelectedItem();
-				int _Age= (int) Age.getSelectedItem();
-				int _experience= (int) experience.getSelectedItem();
+				int _Age= Integer.parseInt(patientAge.getText());
+				int _experience= Integer.parseInt(nurseExperience.getText());
 				String _Bloodtype = txtBloodTyoe.getText();
 				String _PatientArrivalDate = txtPatientArrivalDate.getText();	
 				
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+				String age = LocalDate.now().minusYears(_Age).format(formatter);
+				String exp = LocalDate.now().minusYears(_experience).format(formatter);
 				
-				System.out.println(_Age+ " " +_Bloodtype+ " " +_experience+ " " +_operators_nurse+ " " +_operators_patient+ " " +_PatientArrivalDate);
+				String _pat_op="";
+				String _nurse_op="";
+				
+				switch(_operators_patient) {
+				case ">": _pat_op = "<";
+						  break;
+				case "<": _pat_op = ">";
+				  		  break;
+				case ">=": _pat_op = "<=";
+				          break;
+				case "<=": _pat_op = ">=";
+				           break;
+				case "=": _pat_op = "=";
+				  	      break;
+				}
+				
+				switch(_operators_nurse) {
+				case ">": _nurse_op = "<";
+						  break;
+				case "<": _nurse_op = ">";
+				  		  break;
+				case ">=": _nurse_op = "<=";
+				          break;
+				case "<=": _nurse_op = ">=";
+				           break;
+				case "=": _nurse_op = "=";
+				  	      break;
+				}
+				
+				DatabaseHelper dbHelper = new DatabaseHelper();
+				ResultSet empsRs = dbHelper.GetDetailsComplexOne(_Bloodtype, _PatientArrivalDate, _pat_op, age, _nurse_op, exp);
+				
+				table.setModel(DbUtils.resultSetToTableModel(empsRs));
+				
+				}
+				catch(Exception e1)
+				{
+					JOptionPane.showMessageDialog(frame, "Oops, something went wrong", "Error", JOptionPane.ERROR_MESSAGE);
+				}
 				
 			}
 		});
-		btnSubmit.setBounds(142, 227, 89, 23);
+		btnSubmit.setBounds(335, 168, 89, 23);
 		contentPane.add(btnSubmit);
 		
 		JButton btnNewButton = new JButton("back");
@@ -158,5 +188,15 @@ public class page1 extends JFrame {
 		});
 		btnNewButton.setBounds(0, 0, 89, 23);
 		contentPane.add(btnNewButton);
+		
+		patientAge = new JTextField();
+		patientAge.setBounds(64, 169, 86, 20);
+		contentPane.add(patientAge);
+		patientAge.setColumns(10);
+		
+		nurseExperience = new JTextField();
+		nurseExperience.setBounds(239, 169, 86, 20);
+		contentPane.add(nurseExperience);
+		nurseExperience.setColumns(10);
 	}
 }

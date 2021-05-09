@@ -95,12 +95,12 @@ public class View_MedicalRecord extends JFrame {
 		search_by = new JComboBox();
 		search_by.setBounds(103, 60, 103, 22);
 		contentPane.add(search_by);
+		search_by.addItem("None");
 		search_by.addItem("ssn");
-		search_by.addItem("first name");
-		search_by.addItem("last name");
-		search_by.addItem("blood type");
-		search_by.addItem("DOB");
-		search_by.setSelectedItem(null);
+		search_by.addItem("phone");
+		search_by.addItem("blood_type");
+		search_by.addItem("dob");
+		search_by.setSelectedItem("None");
 		
 		JButton btnNewButton_1 = new JButton("submit");
 		btnNewButton_1.addActionListener(new ActionListener() {
@@ -108,12 +108,12 @@ public class View_MedicalRecord extends JFrame {
 			try {
 				
 				String _search_by = (String) search_by.getSelectedItem();
+				String _search_value = "-1";
 				
-				int _search_ssn = -1;
-				if(!search.getText().isEmpty()) _search_ssn = Integer.parseInt(search.getText());
+				if(!search.getText().isEmpty()) _search_value=search.getText();
 				
 				DatabaseHelper dbHelper = new DatabaseHelper();
-				ResultSet medRs = dbHelper.FetchPatientOrRecord(_search_ssn, "medical_record");
+				ResultSet medRs = dbHelper.FetchPatientOrRecord(_search_by, _search_value, "medical_record");
 				
 				table.setModel(DbUtils.resultSetToTableModel(medRs));
 				
@@ -206,8 +206,11 @@ public class View_MedicalRecord extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				DatabaseHelper dbHelper = new DatabaseHelper();
 				try {
-					int _search_ssn = -1;
-					if(!search.getText().isEmpty()) _search_ssn = Integer.parseInt(search.getText());
+					String _search_by = (String) search_by.getSelectedItem();
+					String _search_value = "-1";
+					
+					if(!search.getText().isEmpty()) _search_value=search.getText();
+					
 					
 					medc.address = addressEdit.getText();
 					medc.phone = Integer.parseInt(phoneEdit.getText());
@@ -217,7 +220,7 @@ public class View_MedicalRecord extends JFrame {
 					medc.maintainer_ssn = Integer.parseInt(maintainerSsnEdit.getText());
 					dbHelper.EditMedicalRecord(medc);
 					
-					ResultSet medRs = dbHelper.FetchPatientOrRecord(_search_ssn, "medical_record");	
+					ResultSet medRs = dbHelper.FetchPatientOrRecord(_search_by, _search_value, "medical_record");
 					table.setModel(DbUtils.resultSetToTableModel(medRs));
 					
 					JOptionPane.showMessageDialog(frame, "Successfully edited this record", "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -233,10 +236,12 @@ public class View_MedicalRecord extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				DatabaseHelper dbHelper = new DatabaseHelper();
 				try {
-					int _search_ssn = -1;
-					if(!search.getText().isEmpty()) _search_ssn = Integer.parseInt(search.getText());
+					String _search_by = (String) search_by.getSelectedItem();
+					String _search_value = "-1";
+					
+					if(!search.getText().isEmpty()) _search_value=search.getText();
 					dbHelper.DeleteMedicalRecord(medc.ssn);
-					ResultSet medRs = dbHelper.FetchPatientOrRecord(_search_ssn, "medical_record");	
+					ResultSet medRs = dbHelper.FetchPatientOrRecord(_search_by, _search_value, "medical_record");
 					table.setModel(DbUtils.resultSetToTableModel(medRs));
 					JOptionPane.showMessageDialog(frame, "Successfully deleted this record", "Success", JOptionPane.INFORMATION_MESSAGE);
 				}

@@ -5,4 +5,5 @@ public class Medicine {
 	public int quantity;
 	public String expiry_date;
 	public int price;
+	public String med_name;
 }

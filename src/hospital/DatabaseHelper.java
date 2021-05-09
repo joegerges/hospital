@@ -235,14 +235,15 @@ public class DatabaseHelper {
 	public void AddMedicine(Medicine med) throws SQLException
 	{
 
-		  String query = " insert into medecine (code_number, quantity, expiry_date, price)"
-			        + " values (?, ?, ?, ?)";
+		  String query = " insert into medecine (code_number, med_name, quantity, expiry_date, price)"
+			        + " values (?, ?, ?, ?, ?)";
 
 	      PreparedStatement preparedStmt = _con.prepareStatement(query);
 	      preparedStmt.setInt(1, med.code_number);
-	      preparedStmt.setInt(2, med.quantity);
-	      preparedStmt.setString(3, med.expiry_date);
-	      preparedStmt.setInt(4, med.price);
+	      preparedStmt.setString(2, med.med_name);
+	      preparedStmt.setInt(3, med.quantity);
+	      preparedStmt.setString(4, med.expiry_date);
+	      preparedStmt.setInt(5, med.price);
 	      preparedStmt.execute();
 
 	}
@@ -357,7 +358,7 @@ public class DatabaseHelper {
 	
 	
 
-	public ResultSet GetEmployees(String type, int ssn, String salary_operator, int salary)
+	public ResultSet GetEmployees(String type, String search_by, String search_value, String salary_operator, int salary)
 	{
 		ResultSet rs = null;
 		try {
@@ -367,10 +368,11 @@ public class DatabaseHelper {
 			{
 				query += " AND salary" + salary_operator + salary;
 			}
-			if(ssn != -1)
+			if(search_by != "None" && search_value != "-1")
 			{
-				query += " AND e.ssn LIKE '%"+ssn+"%'";
+				query += " AND " + search_by + " LIKE '%"+search_value+"%'";
 			}
+			
 			rs = stmt.executeQuery(query);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -386,7 +388,7 @@ public class DatabaseHelper {
 			String query = "SELECT patient_ssn, med_code, treatment_id, total_price FROM bill";
 			if(ssn_filter != -1)
 			{
-				query += " WHERE patient_ssn="+ssn_filter;
+				query += " WHERE patient_ssn LIKE '%"+ssn_filter+"%'";
 			}
 			rs = stmt.executeQuery(query);
 		} catch (SQLException e) {
@@ -472,15 +474,15 @@ public class DatabaseHelper {
 	}
 	
 	
-	public ResultSet FetchPatientOrRecord(int patient_ssn, String type)
+	public ResultSet FetchPatientOrRecord(String search_by, String search_value, String type)
 	{
 		ResultSet rs = null;
 		try {
 			Statement stmt = _con.createStatement();
 			String query = "SELECT * FROM " + type;
-			if(patient_ssn != -1)
+			if(search_value != "-1" && search_by != "None")
 			{
-				query += " WHERE ssn LIKE '%" + patient_ssn + "%'";
+				query += " WHERE " + search_by + " LIKE '%" + search_value + "%'";
 			}
 			rs = stmt.executeQuery(query);
 		} catch (SQLException e) {
@@ -508,6 +510,62 @@ public class DatabaseHelper {
 		 String query = "DELETE FROM medical_record WHERE ssn=" + patient_ssn;
 		 PreparedStatement preparedStmt = _con.prepareStatement(query);
 		 preparedStmt.execute();
+	}
+	
+	public ResultSet GetDocQualOrSpec(String type, int ssn)
+	{
+		ResultSet rs = null;
+		try {
+			Statement stmt = _con.createStatement();
+			String query = "SELECT * FROM doctor_"+type;
+			if(ssn != -1)
+			{
+				query+=" WHERE ssn="+ssn;
+			}
+			rs = stmt.executeQuery(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return rs;
+	}
+	
+	public void AssignNurseJanToRoom(int nurse_ssn, int jan_ssn, int room_num, int floor_num) throws SQLException
+	{
+		String query = "insert into in_charge (nurse_ssn, janitor_ssn, room_number, floor_number)"
+		        + " values (?, ?, ?, ?)";
+
+        PreparedStatement preparedStmt = _con.prepareStatement(query);
+        preparedStmt.setInt(1, nurse_ssn);
+        preparedStmt.setInt(2, jan_ssn);
+        preparedStmt.setInt(3, room_num);
+        preparedStmt.setInt(4, floor_num);
+        preparedStmt.execute();
+	}
+	
+	public ResultSet GetDetailsComplexOne(String pat_blood_type, String pat_arrival_date, String age_operator, String ageDate, String experience_operator, String experienceDate)
+	{
+		ResultSet rs = null;
+		try {
+			Statement stmt = _con.createStatement();
+			String query = "SELECT * FROM complex_nurse_patient_view WHERE blood_type='"+pat_blood_type+"' AND last_entered='"+pat_arrival_date+"' AND dob"+age_operator+"'"+ageDate+ "' AND nurse_start_date"+experience_operator+"'"+experienceDate+"'";
+			rs = stmt.executeQuery(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return rs;
+	}
+	
+	public ResultSet GetDetailsComplexTwo(String payment_date, String med_name, String treatment, String ageOperator, String ageDate, String paidOperator, int totalSum)
+	{
+		ResultSet rs = null;
+		try {
+			Statement stmt = _con.createStatement();
+			String query = "SELECT ssn, fname, lname, last_entered, dob, phone, SUM(total_price) AS total_paid FROM complex_patient_payment_view WHERE last_entered='"+payment_date+"' AND med_name='"+med_name+"'AND treatment='"+treatment+"' AND dob"+ageOperator+"'"+ageDate+ "'"+" GROUP BY ssn HAVING total_paid"+paidOperator+""+totalSum;
+			rs = stmt.executeQuery(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return rs;
 	}
 	
 }

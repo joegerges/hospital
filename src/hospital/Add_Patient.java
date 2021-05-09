@@ -13,7 +13,10 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
 public class Add_Patient extends JFrame {
@@ -74,10 +77,16 @@ public class Add_Patient extends JFrame {
 		contentPane.add(patient_room);
 		patient_room.setColumns(10);
 		
-		patient_floor = new JTextField();
-		patient_floor.setBounds(193, 173, 96, 20);
-		contentPane.add(patient_floor);
-		patient_floor.setColumns(10);
+		DatabaseHelper dbHelper = new DatabaseHelper();
+		ArrayList<Integer> floor_numbers = dbHelper.GetFloorNumbers();
+		JComboBox<Integer> floor_number = new JComboBox<Integer>();
+		floor_number.setBounds(193, 173, 96, 20);
+		for(Integer floor: floor_numbers)
+		{
+			floor_number.addItem(floor);
+		}
+		contentPane.add(floor_number);
+		floor_number.setSelectedItem(null);
 		
 		JLabel lblNewLabel = new JLabel("SSN");
 		lblNewLabel.setBounds(52, 52, 49, 14);

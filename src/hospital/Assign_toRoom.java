@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 
@@ -64,11 +65,15 @@ public class Assign_toRoom extends JFrame {
 		contentPane.add(janitor_ssn);
 		janitor_ssn.setColumns(10);
 		
-		JComboBox room_floor = new JComboBox();
+		JComboBox<Integer> room_floor = new JComboBox<Integer>();
+		DatabaseHelper dbHelper = new DatabaseHelper();
+		ArrayList<Integer> floor_numbers = dbHelper.GetFloorNumbers();
 		room_floor.setBounds(163, 124, 96, 22);
+		for(Integer floor: floor_numbers)
+		{
+			room_floor.addItem(floor);
+		}
 		contentPane.add(room_floor);
-		room_floor.addItem("1");
-		room_floor.addItem("2");
 		room_floor.setSelectedItem(null);
 		
 		JButton btnNewButton = new JButton("submit");
@@ -77,14 +82,16 @@ public class Assign_toRoom extends JFrame {
 				try {
 				int _nurse_ssn = Integer.parseInt(nurse_ssn.getText());
 				int _janitor_ssn = Integer.parseInt(janitor_ssn.getText());
-				String _room_number = room_number.getText();
-				String _room_floor = (String) room_floor.getSelectedItem();
+				int _room_number = Integer.parseInt(room_number.getText());
+				int _room_floor = (Integer) room_floor.getSelectedItem();
 				
-				System.out.print(_nurse_ssn + " " + _janitor_ssn + " " + _room_floor + " " + _room_number + " " );
+				DatabaseHelper dbHelper = new DatabaseHelper();
+				dbHelper.AssignNurseJanToRoom(_nurse_ssn, _janitor_ssn, _room_number, _room_floor);
 				JOptionPane.showMessageDialog(frame, "Successfully added this room", "Success", JOptionPane.INFORMATION_MESSAGE);
 				}
 				catch(Exception e1)
 				{
+					e1.printStackTrace();
 					JOptionPane.showMessageDialog(frame, "Oops, something went wrong", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 		
