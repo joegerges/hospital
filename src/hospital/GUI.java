@@ -208,6 +208,24 @@ public class GUI {
 			}
 		});
 		panel.add(btnNewButton_5);
+		
+		JButton btnNewButton_6 = new JButton("page1");
+		btnNewButton_6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				page1 varpage1 = new page1();	
+				varpage1.setVisible(true);
+			}
+		});
+		panel.add(btnNewButton_6);
+		
+		JButton btnNewButton_7 = new JButton("page2");
+		btnNewButton_7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				page2 varpage2 = new page2();	
+				varpage2.setVisible(true);
+			}
+		});
+		panel.add(btnNewButton_7);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Hospital");	
 		frame.pack();
