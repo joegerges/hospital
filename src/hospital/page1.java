@@ -60,22 +60,22 @@ public class page1 extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Let's find the details of patients with Blood Type X , older than Y, having arrived");
+		JLabel lblNewLabel = new JLabel("Let's find the details of patients with Blood Type B- , older than 21, having arrived");
 		lblNewLabel.setBounds(20, 24, 508, 32);
 		contentPane.add(lblNewLabel);
 		
-		JLabel lblNewLabel_1 = new JLabel("before Z date, whose nurse had more than M years of experience");
+		JLabel lblNewLabel_1 = new JLabel("before 2020-09-05, whose nurse had more than 20 years of experience");
 		lblNewLabel_1.setBounds(20, 50, 451, 39);
 		contentPane.add(lblNewLabel_1);
 		
 		txtBloodTyoe = new JTextField();
-		txtBloodTyoe.setText("Patient Blood type");
+		txtBloodTyoe.setText("B-");
 		txtBloodTyoe.setBounds(10, 90, 140, 20);
 		contentPane.add(txtBloodTyoe);
 		txtBloodTyoe.setColumns(10);
 		
 		txtPatientArrivalDate = new JTextField();
-		txtPatientArrivalDate.setText("Patient Arrival Date");
+		txtPatientArrivalDate.setText("2020-09-05");
 		txtPatientArrivalDate.setColumns(10);
 		txtPatientArrivalDate.setBounds(10, 121, 140, 20);
 		contentPane.add(txtPatientArrivalDate);

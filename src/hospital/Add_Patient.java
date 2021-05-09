@@ -124,7 +124,7 @@ public class Add_Patient extends JFrame {
 				String fn = patient_fn.getText();
 				String ln = patient_ln.getText();
 				int ssn = Integer.parseInt(patient_ssn.getText());
-				int floor = Integer.parseInt(patient_floor.getText());
+				int floor = (int) floor_number.getSelectedItem();
 				int room = Integer.parseInt(patient_room.getText());
 				String _arrival = textField.getText();
 				

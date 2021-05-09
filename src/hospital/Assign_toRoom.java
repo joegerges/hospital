@@ -87,7 +87,7 @@ public class Assign_toRoom extends JFrame {
 				
 				DatabaseHelper dbHelper = new DatabaseHelper();
 				dbHelper.AssignNurseJanToRoom(_nurse_ssn, _janitor_ssn, _room_number, _room_floor);
-				JOptionPane.showMessageDialog(frame, "Successfully added this room", "Success", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(frame, "Successfully assigned nurse and janitor to this room", "Success", JOptionPane.INFORMATION_MESSAGE);
 				}
 				catch(Exception e1)
 				{

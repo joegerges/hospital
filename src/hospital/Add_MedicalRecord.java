@@ -149,7 +149,7 @@ public class Add_MedicalRecord extends JFrame {
 				
 				DatabaseHelper dbHelper = new DatabaseHelper();
 				dbHelper.AddMedicalRecord(med);
-				JOptionPane.showMessageDialog(frame, "Successfully added this patient", "Success", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(frame, "Successfully added this medical record", "Success", JOptionPane.INFORMATION_MESSAGE);
 				}
 				catch(Exception e1)
 				{
